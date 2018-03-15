@@ -1,5 +1,6 @@
 package com.bridgelabz.utility;
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,6 +22,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.bridgelabz.program.CardQueue;
+
+
 
 public class Utility 
 {
@@ -45,7 +49,21 @@ public class Utility
 			}
 			return "";
 		}
-		
+		/**
+		 * @input string
+		 */
+		public String inputStringLine()
+		{
+			try
+			{
+			return scanner.nextLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			return "";
+		}
 		/**
 		 * @input integer
 		 */
@@ -161,6 +179,7 @@ public class Utility
 		/** Read data from json file
 		 * 
 		 */
+		@SuppressWarnings("rawtypes")
 		public static void readData()
 		{
 			File file = new File("inventory.json");
@@ -168,6 +187,7 @@ public class Utility
 				FileReader reader = new FileReader(file);
 				JSONParser parser = new JSONParser();
 				JSONObject object =(JSONObject) parser.parse(reader);
+				@SuppressWarnings("rawtypes")
 				Iterator iterator = object.keySet().iterator();
 				while(iterator.hasNext())
 				{
@@ -196,7 +216,9 @@ public class Utility
 			}			
 		}
 		
-		static String message="Hello <<Name>>, We have your full name as <<Full Name>> in our system. your contact number is 91-xxxxxxxxxx. Please,let us know in case of any clarification Thank you BridgeLabz 01/01/2016.";
+		static String message="Hello <<Name>>, We have your full name as <<Full Name>> in our system. "
+				+ "your contact number is 91-xxxxxxxxxx. Please,let us know in case of any clarification "
+				+ "Thank you BridgeLabz 01/01/2016.";
 		static String fName;
 		static String lName;
 		static String mNumber="0";
@@ -245,7 +267,7 @@ public class Utility
 
 		public static void setDate() 
 		{
-			Date date = new Date(0);
+			Date date = new Date();
 			String d = new SimpleDateFormat().format(date);
 			String d1[] = d.split(" ");
 			
@@ -452,4 +474,620 @@ public class Utility
 				System.out.println();
 			}
 		}
+		
+		@SuppressWarnings("unchecked")
+		public static void createAccount()  
+		{
+			File file = new File("UserDetails.json");
+			if(file.exists())
+			{
+				@SuppressWarnings("unused")
+				JSONArray arr = new JSONArray();
+			
+				boolean check= true;
+				while (check)
+				{	
+					System.out.println("Want to add user: y or n");
+					char ch = scanner.next().charAt(0); 
+					if(ch=='y')
+					{	
+						try
+						{
+						FileReader reader = new FileReader(file);
+						JSONParser parser = new JSONParser();
+						JSONArray array = (JSONArray) parser.parse(reader);
+						JSONObject json = new JSONObject();
+				        System.out.println("Enter name");
+				        String name =scanner.next();
+				        System.out.println("Enter balance");
+				        int bal = scanner.nextInt();
+				        json.put("Name",name);
+				        json.put("Balance",bal);
+				        json.put("ShareCount", 100);
+				    
+				        array.add(json);
+				      	FileWriter fw = new FileWriter(file);
+				        fw.write(JSONArray.toJSONString(array));
+				        fw.flush();
+				        fw.close();
+			
+					}catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+					}
+					else
+					{
+						check=false;
+					}
+				}
+				
+			}
+			else
+			{
+				System.out.println("File does not exits");
+			}
+		}
+		
+
+		/**
+		 * 
+		 */
+		@SuppressWarnings("unchecked")
+		public static void buyShare() 
+		{
+			File file = new File("UserDetails.json");
+			File file1 = new File("StockSymbol.json");
+			if (file.exists() && file1.exists()) 
+			{
+				try 
+				{
+					FileReader reader1 = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONArray stock = (JSONArray) parser.parse(reader1);
+					// reading share file
+	
+					FileReader reader = new FileReader(file1);
+					JSONParser parser1 = new JSONParser();
+					JSONArray share = (JSONArray) parser1.parse(reader);
+	
+					System.out.println("Enter the user");
+					String name = scanner.next();
+					Iterator<?> iterator= stock.iterator();
+					Iterator<?> iterator2 = share.iterator();
+					boolean flag = false;
+					while (iterator.hasNext()) {
+					JSONObject obj = (JSONObject) iterator.next();
+					if (obj.get("Name").equals(name)) 
+					{
+						System.out.println("Enter the share symbol to buy share:[@,!,#]");
+						String symbol =scanner.next();
+						
+						while (iterator2.hasNext()) 
+						{
+							JSONObject obj1 = (JSONObject) iterator2.next();
+							if (obj1.get("Symbol").equals(symbol)) 
+							{
+								System.out.println("Enter the amount");
+								int amount = scanner.nextInt();
+								int balance = Integer.parseInt(obj.get("Balance").toString());
+								int price = Integer.parseInt(obj1.get("Price").toString());
+								int noShare = Integer.parseInt(obj.get("ShareCount").toString());
+								int stockShare = Integer.parseInt(obj1.get("Count").toString());
+								int numofshare = amount / price;
+								int newbal = balance - amount;
+								int sharecountcus = noShare + numofshare;
+								int sharecountstock = stockShare - numofshare;
+								obj.remove("Balance");
+								obj.remove("ShareCount");
+								obj1.remove("Count");
+
+								obj.put("Balance", newbal);
+								obj.put("ShareCount", sharecountcus);
+								obj1.put("Count", sharecountstock);
+								Date d = new Date();
+								String date = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a").format(d);
+								System.out.println("Date " + date);
+								flag = true;
+								break;
+							}
+						}
+						
+					}
+					FileWriter fs = new FileWriter(file);
+					fs.write(JSONValue.toJSONString(stock));
+					fs.flush();
+					fs.close();
+				}
+				if (flag == false) {
+					System.out.println("User name not exits");
+				}
+				FileWriter fw = new FileWriter(file1);
+				fw.write(JSONValue.toJSONString(share));
+				fw.flush();
+				fw.close();
+			}
+			 catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			}else {
+				System.out.println("File does not exits");
+			}
+			
+		}
+		
+		
+		/**
+		 * 
+		 */
+		@SuppressWarnings("unchecked")
+		public static void saleShare() 
+		{
+			
+			File file = new File("UserDetails.json");
+			File file1 =new File("StockSymbol.json");
+			if(file.exists() && file1.exists())
+			{
+				// reading stock file
+				try {
+					FileReader fr = new FileReader(file);
+				
+				JSONParser parser = new JSONParser();
+				JSONArray stock = (JSONArray) parser.parse(fr);
+				//reading share file
+				
+				FileReader reader2 = new FileReader(file1);
+				JSONParser parser1 = new JSONParser();
+				JSONArray share = (JSONArray) parser1.parse(reader2);
+				
+				System.out.println("Enter the user");
+				String name =scanner.next();
+				Iterator<?> itr = stock.iterator();
+				Iterator<?> itr1 = share.iterator();
+				boolean flag = false;
+				while (itr.hasNext())
+				{
+					JSONObject obj=(JSONObject) itr.next();
+					if(obj.get("Name").equals(name))
+					{
+						System.out.println("Enter the share sysmbol to sale share:[@,!,#]");
+						String symbol = scanner.next();
+						System.out.println("Enter the number of share to sale");
+						int count=scanner.nextInt();
+						//obj.put("Share Symbol", sym);
+						while(itr1.hasNext())
+						{
+							JSONObject obj1 = (JSONObject) itr1.next();
+							if(obj1.get("Symbol").equals(symbol))
+							{	
+								int bal =  Integer.parseInt(obj.get("Balance").toString());
+								int price = Integer.parseInt(obj1.get("Price").toString());
+								int noShare =  Integer.parseInt(obj.get("ShareCount").toString());
+								int stockShare = Integer.parseInt(obj1.get("Count").toString());
+								int saleprize = count*price;
+								int newbal = bal+saleprize;
+								int sharecountcus = noShare-count;
+								int sharecountstock = stockShare+count;
+								obj.remove("Balance");
+								obj.remove("ShareCount");
+								obj1.remove("Count");
+								
+								obj.put("Balance",newbal);
+								obj.put("ShareCount",sharecountcus);
+								obj1.put("Count", sharecountstock);
+								Date d = new Date();
+								String date = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a").format(d);
+								System.out.println("Date "+date);
+								flag = true;
+								break;
+							}
+							
+						}
+					}
+
+					FileWriter fs = new FileWriter(file);
+					fs.write(JSONValue.toJSONString(stock));
+					
+					fs.flush();
+					fs.close();
+				}
+				if(flag == false)
+				{
+					System.out.println("User name not exits");
+				}
+				FileWriter fw = new FileWriter(file1);
+				fw.write(JSONValue.toJSONString(share));
+				fw.flush();
+				fw.close();
+			}
+			 catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			}
+			else
+			{
+				System.out.println("File Does not exits");
+			}
+		}
+		// Share and Stock report
+			/**
+			 * @param <E>
+			 * @throws IOException
+			 * @throws ParseException
+			 * display the details
+			 */
+			@SuppressWarnings("unchecked")
+			public static <E> void printReport()  
+			{
+				File file = new File("UserDetails.json");
+				 
+				try {
+					FileReader reader = new FileReader(file);
+				
+				JSONParser parser = new JSONParser();
+				JSONArray arr1 = (JSONArray) parser.parse(reader);
+				Iterator <E>itr = arr1.iterator();
+				while (itr.hasNext())
+				{
+					JSONObject obj = (JSONObject) itr.next();
+					System.out.println(obj);
+				}
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
+			
+			
+			@SuppressWarnings("unchecked")
+			public static void addPerson()
+			{
+				String firstname,lastname,address,city,state;
+				long contact,zipcode;
+				System.out.println("Enter Firstname: ");
+				firstname = scanner.next();
+				System.out.println("Enter Lastname: ");
+				lastname = scanner.next();
+				System.out.println("Enter Contact Number: ");
+				contact = scanner.nextLong();
+				System.out.println("Enter Address: ");
+				address = scanner.next();
+				System.out.println("Enter City: ");
+				city = scanner.next();
+				System.out.println("Enter State: ");
+				state =scanner.next();
+				System.out.println("Enter Zip Code: ");
+				zipcode = scanner.nextLong();
+				
+				try {
+					File file = new File("address.json");
+					FileReader reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject =(JSONObject) parser.parse(reader);
+					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
+					
+					JSONObject person = new JSONObject();
+					person.put("firstName", firstname);
+					person.put("lastName", lastname);
+					person.put("city", city);
+					person.put("state", state);
+					person.put("zip", zipcode);
+					person.put("phoneNumber", contact);
+					person.put("address", address);
+					//System.out.println(person);
+					jsonArray.add(person);
+					
+					jsonObject.put("address", jsonArray);
+					PrintWriter printWriter = new PrintWriter("address.json");
+					printWriter.write(jsonObject.toJSONString());
+					printWriter.flush();
+					printWriter.close();
+					System.out.println("person detail added in address book"); 
+					
+				}
+				catch (FileNotFoundException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}					
+				catch(IOException | ParseException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+
+			@SuppressWarnings("unchecked")
+			public static void editDetails()
+			{
+				int index = 0;
+				JSONObject person=new JSONObject();
+				boolean present = false;
+				System.out.println("enter the name of the person");
+				String firstName = utility.inputString();
+				
+				try 
+				{
+					File file = new File("address.json");
+					FileReader reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject =(JSONObject) parser.parse(reader);
+					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
+					for(int i = 0; i < jsonArray.size();i++)
+					{
+						 person = (JSONObject) jsonArray.get(i);
+						String personFirstName = (String) person.get("firstName");
+						if(personFirstName.equals(firstName))
+						{
+							index = i;
+							present = true;
+							break;
+						}
+					}
+					if(present)
+					{
+						
+						int choice=0;
+						do
+						{
+							System.out.println("Enter 1 to edit lastName");
+							System.out.println("Enter 2 to edit city");
+							System.out.println("Enter 3 to edit state");
+							System.out.println("Enter 4 to edit zip");
+							System.out.println("Enter 5 to edit phoneNumber");
+							System.out.println("Enter 6 to edit address");
+							System.out.println("Enter 7 to stop editing");
+							 choice = utility.inputInteger();
+							
+							switch (choice) 
+							{
+							case 1:
+								System.out.println("enter the last name");
+								String lastName = utility.inputString();
+								person.put("lastName", lastName);
+								break;
+							case 2:
+								System.out.println("enter the city");
+								String city = utility.inputString();
+								person.put("city", city);
+								break;
+							case 3 :
+								System.out.println("enter the state");
+								String state = utility.inputString();
+								person.put("state", state);
+								break;
+							case 4:
+								System.out.println("enter zip");
+								String zip = utility.inputString();
+								person.put("zip", zip);
+								break;
+							case 5 :
+								System.out.println("enter phoneNumber");
+								String phoneNumber = utility.inputString();
+								person.put("phoneNumber", phoneNumber);
+								break;
+							case 6 : 
+								System.out.println("enter address");
+								String address = utility.inputStringLine();
+								person.put("address", address);
+								break;
+							default:
+								break;
+							}
+						}
+						while(choice > 0);
+						jsonArray.set(index, person);
+						jsonObject.put("address", jsonArray);
+						PrintWriter printWriter = new PrintWriter("address.json");
+						printWriter.write(jsonObject.toJSONString());
+						printWriter.flush();
+						printWriter.close();
+						System.out.println("person detail edited");
+					}
+					else
+					{
+						System.out.println("person not persent");
+					}
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				catch(IOException | ParseException e)
+				{
+					e.printStackTrace();
+				}
+		}
+		
+			public static void deleteDetails()
+			{
+				System.out.println("enter the name of the person to be deleted");
+				Utility utility = new Utility();
+				String firstName = utility.inputString();
+				int index = 0;
+				JSONObject person = new JSONObject();
+				boolean present = false;
+				
+				
+					try {
+						File file = new File("address.json");
+						FileReader reader = new FileReader(file);
+						JSONParser parser = new JSONParser();
+						JSONObject jsonObject =(JSONObject) parser.parse(reader);
+						JSONArray jsonArray = (JSONArray) jsonObject.get("address");
+						for(int i = 0; i < jsonArray.size();i++)
+						{
+							 person = (JSONObject) jsonArray.get(i);
+							String personFirstName = (String) person.get("firstName");
+							if(personFirstName.equals(firstName))
+							{
+								index = i;
+								present = true;
+								break;
+							}
+						}
+						if(present)
+						{
+							jsonArray.remove(index);
+							jsonObject.put("address", jsonArray);
+							PrintWriter printWriter = new PrintWriter("address.json");
+							printWriter.write(jsonObject.toJSONString());
+							printWriter.flush();
+							printWriter.close();
+							System.out.println("person detail deleted");
+						}
+						else
+						{
+							System.out.println("person not persent in address book");
+						}
+					} catch (FileNotFoundException e) 
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					catch(IOException | ParseException e)
+					{
+						e.printStackTrace();
+					}
+			}
+			
+			public static void sortByName() 
+			{	
+				try {
+					File file = new File("address.json");
+					FileReader reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject =(JSONObject) parser.parse(reader);
+					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
+					JSONObject person1 = new JSONObject();
+					JSONObject person2 = new JSONObject();
+					String firstName1;
+					String firstName2;
+					
+					for(int i = 0; i < jsonArray.size()-1;i++)
+					{
+						for(int j = i+1; j< jsonArray.size();j++)
+						{
+							person1 = (JSONObject) jsonArray.get(i);
+							person2 = (JSONObject) jsonArray.get(j);
+							firstName1 = (String) person1.get("firstName");
+							firstName2 = (String) person2.get("firstName");
+							if (firstName1.compareToIgnoreCase(firstName2) >0)
+							{
+								jsonArray.set(i, person2);
+								jsonArray.set(j, person1);
+							}
+						}
+					}
+					jsonObject.put("address", jsonArray);
+					PrintWriter printWriter = new PrintWriter("address.json");
+					printWriter.write(jsonObject.toJSONString());
+					printWriter.flush();
+					printWriter.close();
+					for(int i = 0; i < jsonArray.size(); i++)
+					{
+						System.out.println(jsonArray.get(i));
+					}
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				catch(IOException | ParseException e)
+				{
+					e.printStackTrace();
+				}
+				
+			}
+			public static void sortByZip() 
+			{
+
+				try {
+					File file = new File("address.json");
+					FileReader reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject =(JSONObject) parser.parse(reader);
+					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
+					JSONObject person1 = new JSONObject();
+					JSONObject person2 = new JSONObject();
+					String zip1;
+					String zip2;
+					long intzip1;
+					long intzip2;
+					for(int i = 0; i < jsonArray.size()-1;i++)
+					{
+						for(int j = i+1; j< jsonArray.size();j++)
+						{
+							person1 = (JSONObject) jsonArray.get(i);
+							person2 = (JSONObject) jsonArray.get(j);
+							zip1 = (String) person1.get("zip");
+							zip2 = (String) person2.get("zip");
+							intzip1 = Long.parseLong(zip1);
+							intzip2 = Long.parseLong(zip2);
+							if(intzip1>intzip2)
+							{
+								jsonArray.set(i, person2);
+								jsonArray.set(j, person1);
+							}
+						}
+					}
+					jsonObject.put("address", jsonArray);
+					PrintWriter printWriter = new PrintWriter("address.json");
+					printWriter.write(jsonObject.toJSONString());
+					printWriter.flush();
+					printWriter.close();
+					for(int i = 0; i < jsonArray.size(); i++)
+					{
+						System.out.println(jsonArray.get(i));
+					}
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				catch(IOException | ParseException e)
+				{
+					e.printStackTrace();
+				}
+				
+			}
+			public static void displayAddressBook()
+			{
+				try 
+				{
+				File file = new File("address.json");
+					FileReader reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject =(JSONObject) parser.parse(reader);
+					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
+					
+					for(int i = 0; i < jsonArray.size(); i++)
+					{
+						System.out.println(jsonArray.get(i));
+					}
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				catch(IOException | ParseException e)
+				{
+					e.printStackTrace();
+					
+				}
+				
+			}
+
+			
 }
