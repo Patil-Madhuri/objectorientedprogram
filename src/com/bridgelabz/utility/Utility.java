@@ -1,6 +1,5 @@
 package com.bridgelabz.utility;
 import java.io.File;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -8,12 +7,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map.Entry;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,9 +25,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.bridgelabz.program.CardQueue;
-
-
-
 public class Utility 
 {
 		static Scanner scanner;
@@ -170,8 +170,8 @@ public class Utility
 				
 				writer.flush();
 				writer.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException e) 
+			{
 				e.printStackTrace();
 			}
 		}
@@ -187,7 +187,6 @@ public class Utility
 				FileReader reader = new FileReader(file);
 				JSONParser parser = new JSONParser();
 				JSONObject object =(JSONObject) parser.parse(reader);
-				@SuppressWarnings("rawtypes")
 				Iterator iterator = object.keySet().iterator();
 				while(iterator.hasNext())
 				{
@@ -196,6 +195,7 @@ public class Utility
 					Iterator iterator1 = object.keySet().iterator();
 					while(iterator1.hasNext())
 					{
+						@SuppressWarnings("unused")
 						String key1 = (String)iterator1.next();
 					
 					}System.out.println();
@@ -205,15 +205,12 @@ public class Utility
 				}
 				
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException | ParseException e) {
+				
 				e.printStackTrace();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
+			} 		
 		}
 		
 		static String message="Hello <<Name>>, We have your full name as <<Full Name>> in our system. "
@@ -367,7 +364,7 @@ public class Utility
 			try {
 				printWriter = new PrintWriter("StockReport.json");
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 			
@@ -470,9 +467,23 @@ public class Utility
 				{
 					array[i][j] = deck[i+j];
 					cardqueue.push(array[i][j]);
+				
 				}
 				System.out.println();
 			}
+			System.out.println("*****After sort*****");
+			   for (String sorted[] : array) 
+			   {
+			       Arrays.sort(sorted);
+			  
+			       for (String integer : sorted) 
+			       {
+			           System.out.println(integer);
+			       }
+			       System.out.println();
+			   }
+
+
 		}
 		
 		@SuppressWarnings("unchecked")
@@ -511,11 +522,11 @@ public class Utility
 				        fw.flush();
 				        fw.close();
 			
-					}catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
+					}catch (FileNotFoundException e) 
+						{
 						e.printStackTrace();
 					} catch (IOException | ParseException e) {
-						// TODO Auto-generated catch block
+						
 						e.printStackTrace();
 					} 
 					}
@@ -611,10 +622,10 @@ public class Utility
 				fw.close();
 			}
 			 catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} catch (IOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} 
 			}else {
@@ -708,10 +719,10 @@ public class Utility
 				fw.close();
 			}
 			 catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} catch (IOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} 
 			}
@@ -745,10 +756,10 @@ public class Utility
 				}
 				
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			} catch (IOException | ParseException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			} 
 		}
@@ -802,7 +813,7 @@ public class Utility
 				}
 				catch (FileNotFoundException e) 
 				{
-					// TODO Auto-generated catch block
+			
 					e.printStackTrace();
 				}					
 				catch(IOException | ParseException e)
@@ -904,7 +915,7 @@ public class Utility
 						System.out.println("person not persent");
 					}
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+			
 					e.printStackTrace();
 				}
 				catch(IOException | ParseException e)
@@ -913,6 +924,7 @@ public class Utility
 				}
 		}
 		
+			@SuppressWarnings("unchecked")
 			public static void deleteDetails()
 			{
 				System.out.println("enter the name of the person to be deleted");
@@ -956,7 +968,7 @@ public class Utility
 						}
 					} catch (FileNotFoundException e) 
 					{
-						// TODO Auto-generated catch block
+			
 						e.printStackTrace();
 					}
 					catch(IOException | ParseException e)
@@ -965,6 +977,7 @@ public class Utility
 					}
 			}
 			
+			@SuppressWarnings("unchecked")
 			public static void sortByName() 
 			{	
 				try {
@@ -1003,7 +1016,7 @@ public class Utility
 						System.out.println(jsonArray.get(i));
 					}
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+			
 					e.printStackTrace();
 				}
 				catch(IOException | ParseException e)
@@ -1012,6 +1025,7 @@ public class Utility
 				}
 				
 			}
+			@SuppressWarnings("unchecked")
 			public static void sortByZip() 
 			{
 
@@ -1054,7 +1068,7 @@ public class Utility
 						System.out.println(jsonArray.get(i));
 					}
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+			
 					e.printStackTrace();
 				}
 				catch(IOException | ParseException e)
@@ -1078,7 +1092,7 @@ public class Utility
 						System.out.println(jsonArray.get(i));
 					}
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+			
 					e.printStackTrace();
 				}
 				catch(IOException | ParseException e)
@@ -1088,6 +1102,539 @@ public class Utility
 				}
 				
 			}
-
 			
+			
+			public static JSONObject readFromJsonFile(String filename)
+			{
+				Object obj;
+				JSONObject jsonObject = null;
+				try
+				{
+					obj = new JSONParser().parse(new FileReader(filename));
+					jsonObject = (JSONObject) obj;
+				}
+				catch(IOException | ParseException e)
+				{
+					e.printStackTrace();
+				}
+				
+			   
+				return jsonObject; 
+			}
+			public static void printJsonObjectToFile(String fileName, JSONObject jsonObject) 
+			{
+				PrintWriter printWriter;
+				try {
+					printWriter = new PrintWriter(fileName);
+					printWriter.write(jsonObject.toJSONString());
+					printWriter.flush();
+					printWriter.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			@SuppressWarnings("unchecked")
+			public static void addDoctor() 
+			{
+				Utility utility = new Utility();
+				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
+				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
+				boolean itrate = true;
+				String id = null;
+				boolean idPresent = false;
+				
+				while(itrate)
+				{
+					idPresent = false;
+					System.out.println("Enter the id of doctor");
+				    id = utility.inputString();
+					for(int i = 0; i < jsonArrayDoctor.size();i++)
+					{
+						JSONObject doctorObject = (JSONObject) jsonArrayDoctor.get(i);
+						String doctorId = (String) doctorObject.get("id");
+						if(doctorId.equals(id))
+						{
+							idPresent = true;
+							System.out.println("This id is use by another doctor use different one");
+							break;
+						}
+					}
+					if(!idPresent)
+					{
+						itrate = false;
+					}
+				}
+				System.out.println("Enter the name of doctor");
+				String doctorName = utility.inputString();
+				System.out.println("Enter the specialization of doctor");
+				String doctorSpecialization = utility.inputString();
+				System.out.println("Enter availability of doctor");
+				System.out.println("You can only enter one choice out of three");
+				System.out.println("AM if doctor is present in morning");
+				System.out.println("PM if doctor is present in evening");
+				System.out.println("Both if doctor is present both the time");
+				String availability = utility.inputString();
+				JSONObject newDoctorObject = new JSONObject();
+				
+				JSONObject appointment = readFromJsonFile("appoinment.json");
+				appointment.put(id, new JSONObject());
+				newDoctorObject.put("id", id);
+				newDoctorObject.put("name", doctorName);
+				newDoctorObject.put("specialization", doctorSpecialization);
+				newDoctorObject.put("availability", availability);
+				jsonArrayDoctor.add(newDoctorObject);
+				jsonObjectDoctor.put("doctor", jsonArrayDoctor);
+				printJsonObjectToFile("addDoctor.json", jsonObjectDoctor);
+				printJsonObjectToFile("appoinment.json", appointment);
+				System.out.println("Doctor Added");
+				
+				}
+			@SuppressWarnings("unchecked")
+			public static void addPatients() 
+			{
+				Utility utility = new Utility();
+				JSONObject jsonObjectPatients = readFromJsonFile("addPatient.json");
+				JSONArray jsonArraypatients = (JSONArray) jsonObjectPatients.get("patients");
+				boolean itrate = true;
+				String id = null;
+				boolean idPresent = false;
+				
+				while(itrate)
+				{
+					idPresent = false;
+					System.out.println("Enter the id of patients");
+				    id = utility.inputString();
+					for(int i = 0; i < jsonArraypatients.size();i++)
+					{
+						JSONObject patientsObject = (JSONObject) jsonArraypatients.get(i);
+						String patientsId = (String) patientsObject.get("id");
+						if(patientsId.equals(id))
+						{
+							idPresent = true;
+							System.out.println("This id is use by another patients use diffrent one");
+							break;
+						}
+					}
+					if(!idPresent)
+					{
+						itrate = false;
+					}
+				}
+				System.out.println("Enter the name of patients");
+				String Name = utility.inputString();
+				System.out.println("Enter the mobil number of patients");
+				String mobilNumber = utility.inputString();
+				System.out.println("Enter the age of patients");
+				String age = utility.inputString();
+				JSONObject newpatientsObject = new JSONObject();
+				newpatientsObject.put("id", id);
+				newpatientsObject.put("name", Name);
+				newpatientsObject.put("mobilNumber", mobilNumber);
+				newpatientsObject.put("age", age);
+				jsonArraypatients.add(newpatientsObject);
+				jsonObjectPatients.put("patients", jsonArraypatients);
+				printJsonObjectToFile("addPatient.json", jsonObjectPatients);
+				System.out.println("Patient Added");
+			}
+			public static void serachAndbookdoctor(JSONObject pateint) 
+			{
+				Utility utility = new Utility();
+				System.out.println("1 search doctor by name");
+				System.out.println("2 search doctor by id");
+				System.out.println("3 search doctor by specialization");
+				int choise = utility.inputInteger();
+				switch (choise) 
+				{
+				case 1:
+				System.out.println("Enter the name of the doctor");	
+				serachDoctorByName(utility.inputString(),pateint);
+					break;
+				case 2:
+					System.out.println("Enter the id of doctor");
+					serachDoctorById(utility.inputString(), pateint);
+					break;
+				case 3:
+					System.out.println("Enter the specilization of doctor");
+					serachDoctorBySpecialization(utility.inputString(), pateint);
+					break;
+
+				default:
+					break;
+				}
+			}
+			public static void serachDoctorBySpecialization(String doctorSpecialization,JSONObject pateint) 
+			{
+				ArrayList<JSONObject> doctorList = new ArrayList<>();
+				Utility utility = new Utility();
+				JSONObject doctor = null;
+				boolean doctorPresent = false;
+				JSONObject jsonObjectDoctor = readFromJsonFile("doctor.json");
+				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
+				for(int i = 0; i < jsonArrayDoctor.size();i++)
+				{
+				    doctor = (JSONObject) jsonArrayDoctor.get(i);
+					String specialization = (String) doctor.get("specialization");
+					if(specialization.equals(doctorSpecialization))
+					{
+						doctorPresent = true;
+						doctorList.add(doctor);
+					}	
+				}
+				if(doctorPresent)
+				{
+					System.out.println("List of doctor for " + doctorSpecialization);
+					for(int i = 0; i< doctorList.size();i++)
+					{
+						System.out.println(doctorList.get(i));
+					}
+					System.out.println("Enter the id of one doctor from above list");
+					String doctorId = utility.inputString();
+					System.out.println("1 to see doctor is avalable on specific date or not");
+					System.out.println("or any thing else to go back");
+					int chosie = utility.inputInteger();
+					switch (chosie) 
+					{
+					case 1:
+						checkavalbilityOfdocterbyId(doctorId,pateint);
+						break;
+					default:
+						break;
+					}
+				}
+				else
+				{
+					System.out.println("The doctor you searched is not avaliable");
+				}
+			}
+
+			@SuppressWarnings("unused")
+			public static void serachDoctorById(String doctorId,JSONObject pateint) 
+			{
+				Utility utility = new Utility();
+				JSONObject doctor = null;
+				int index = 0;
+				boolean doctorPresent = false;
+				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
+				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
+				for(int i = 0; i < jsonArrayDoctor.size();i++)
+				{
+				    doctor = (JSONObject) jsonArrayDoctor.get(i);
+					String id = (String) doctor.get("id");
+					if(id.equals(doctorId))
+					{
+						doctorPresent = true;
+						index = i;
+						break;
+					}	
+				}
+				if(doctorPresent)
+				{
+					System.out.println(doctor);
+					System.out.println();
+					System.out.println("1 to see doctor is avalable on specific date or not");
+					System.out.println("or any thing else to go back");
+					int choice = utility.inputInteger();
+					switch (choice) 
+					{
+					case 1:
+						checkavalbilityOfdocterbyId(doctorId,pateint);
+						break;
+					default:
+						System.out.println("Invalid choice");
+					}
+				}
+				else
+				{
+					System.out.println("The doctor you serched is not avaliable");
+				}
+			}
+			@SuppressWarnings("unused")
+			public static void serachDoctorByName(String doctorName,JSONObject pateint) 
+			{
+				Utility utility = new Utility();
+				JSONObject doctor = null;
+				
+				boolean doctorPresent = false;
+				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
+				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
+				for(int i = 0; i < jsonArrayDoctor.size();i++)
+				{
+				    doctor = (JSONObject) jsonArrayDoctor.get(i);
+					String name = (String) doctor.get("name");
+					if(name.equals(doctorName))
+					{
+						doctorPresent = true;
+						
+						break;
+					}	
+				}
+				if(doctorPresent)
+				{
+					String doctorId = (String) doctor.get("id");
+					System.out.println(doctor);
+					System.out.println();
+					System.out.println(" 1 to see doctor is avalable on specific date or not");
+					System.out.println("or any thing else to go back");
+					int choice = utility.inputInteger();
+					switch (choice) 
+					{
+					case 1:
+						checkavalbilityOfdocterbyId(doctorId,pateint);
+						break;
+
+					default:
+						System.out.println("Invalid Choice");
+					}
+				}
+				else
+				{
+					System.out.println("The doctor you searched is not avaliable");
+				}
+			}
+			@SuppressWarnings({ "unchecked", "unused" })
+			static void checkavalbilityOfdocterbyId(String id,JSONObject patient) 
+			{
+				boolean avaliable = false;
+				Utility utility = new Utility();
+				System.out.println("enter the date in format of DDMMYYYY");
+				String date = utility.inputString();
+				JSONObject jsonObjectappointment = readFromJsonFile("appoinment.json");
+				JSONObject jsonObjectforId = (JSONObject) jsonObjectappointment.get(id);
+				if(jsonObjectforId.get(date) == null)
+				{
+					System.out.println("Doctor is available enter 1 to book on that date");
+					int choice = utility.inputInteger();
+					switch (choice) 
+					{
+					case 1:
+						JSONArray patentarray = new JSONArray();
+						patentarray.add(patient);
+						jsonObjectforId.put(date, patentarray);
+						jsonObjectappointment.put(id, jsonObjectforId);
+						printJsonObjectToFile("appoinment.json", jsonObjectappointment);
+						System.out.println("Your appointment is fixed");
+						break;
+					default:
+						System.out.println("Invalid choice");
+						
+					}
+				}
+				else
+				{
+					JSONArray oldpatientarray = (JSONArray) jsonObjectforId.get(date);
+					if(oldpatientarray.size()<5)
+					{
+						System.out.println("Doctor avaliable on that day enter 1 to book on that day");
+						System.out.println("or Enter any other number to go back");
+						int choice = utility.inputInteger();
+						switch (choice) 
+						{
+						case 1:
+							oldpatientarray.add(patient);
+							jsonObjectforId.put(date, oldpatientarray);
+							jsonObjectappointment.put(id, jsonObjectforId);
+							printJsonObjectToFile("appointment.json", jsonObjectappointment);
+							System.out.println("your appointment is fixed");
+							break;
+
+						default:
+							System.out.println("Invalid choice");
+						}
+					}
+					else
+					{
+						System.out.println("Doctor is booked on that date try different date");
+					}
+				}
+			}
+			public static void searchPatient() 
+			{
+				ArrayList<JSONObject> arrayListPatient = new ArrayList<>();
+				boolean patientPresent = false;
+				JSONObject jsonObjectpatient = readFromJsonFile("addPatient.json");
+				JSONArray jsonArraypatient = (JSONArray) jsonObjectpatient.get("patients");
+				Utility utility = new Utility();
+				JSONObject patient = null;
+				System.out.println(" 1 to search patient by name");
+				System.out.println(" 2 to search patient by id");
+				System.out.println(" 3 to search patient by contact number");
+				int choise = utility.inputInteger();
+				switch (choise) {
+				case 1:
+					System.out.println("Enter the patient name");
+					String name = utility.inputString();
+					for(int i = 0; i < jsonArraypatient.size();i++)
+					{
+						patient = (JSONObject) jsonArraypatient.get(i);
+						String patientName = (String) patient.get("name");
+						if(name.equals(patientName))
+						{
+							patientPresent = true;
+							arrayListPatient.add(patient);
+						}
+					}
+					if(patientPresent)
+					{
+						System.out.println("Name of Patient " + name);
+						for(int i =0; i < arrayListPatient.size();i++)
+						{
+							System.out.println(arrayListPatient.get(i));
+						}
+					}
+					else
+					{
+						System.out.println("Name of patient = "+name+"doesn't exist" );
+					}
+					break;
+				case 2:
+					System.out.println("Enter the patient id");
+					String id = utility.inputString();
+					for(int i = 0; i < jsonArraypatient.size();i++)
+					{
+						patient = (JSONObject)  jsonArraypatient.get(i);
+						String patientid = (String) patient.get("id");
+						if(id.equals(patientid))
+						{
+							patientPresent = true;
+							break;
+						}
+					}
+					if(patientPresent)
+					{
+						System.out.println(patient);
+					}
+					else
+					{
+						System.out.println("Patient with id = "+id + "not exist");
+					}
+					break;
+				case 3:
+					System.out.println("Enter the patient mobile number");
+					String mobilNumber = utility.inputString();
+					for(int i = 0;i<jsonArraypatient.size();i++)
+					{
+						patient = (JSONObject) jsonArraypatient.get(i);
+						String patientMobilNumber = (String) patient.get("mobilNumber");
+						if(mobilNumber.equals(patientMobilNumber))
+						{
+							patientPresent = true;
+							arrayListPatient.add(patient);
+						}
+					}
+					if(patientPresent)
+					{
+						for(int i = 0; i < arrayListPatient.size();i++)
+						{
+							System.out.println(arrayListPatient.get(i));
+						}
+					}
+					else
+					{
+						System.out.println("patient with mobil number = " + mobilNumber + "not present");
+					}
+				default:
+					break;
+				}
+			}
+			@SuppressWarnings("rawtypes")
+			public static void bestDoctor() 
+			{
+				HashMap<String, Integer> doctorsPatientCount = new HashMap<>();
+				JSONObject jsonObjectappointment = readFromJsonFile("appoinment.json");
+				Set keyOfappointment = jsonObjectappointment.keySet();
+				Iterator iter = keyOfappointment.iterator();
+				while(iter.hasNext())
+				{
+					int countOfPatient = 0;
+					String idOfDoctor = (String) iter.next();
+					JSONObject jsonObjectOfId = (JSONObject) jsonObjectappointment.get(idOfDoctor);
+					if(jsonObjectOfId.isEmpty())
+					{
+						countOfPatient = 0;
+					}
+					else
+					{
+						Set keyOfDate = jsonObjectOfId.keySet();
+						Iterator iter1 = keyOfDate.iterator();
+						while(iter1.hasNext())
+						{
+							String date = (String) iter1.next();
+							JSONArray jsonArrayDate = (JSONArray) jsonObjectOfId.get(date);
+							countOfPatient +=jsonArrayDate.size();
+						}
+					}
+					doctorsPatientCount.put(idOfDoctor, countOfPatient);
+				}
+				
+				String maxKey = "";
+				 int maxValueInMap=(Collections.max(doctorsPatientCount.values()));
+				 for (Entry<String, Integer> entry : doctorsPatientCount.entrySet()) 
+				 {
+			         if (entry.getValue()==maxValueInMap) 
+			         {
+			        	 maxKey = entry.getKey();
+			         }
+				 }
+				 JSONObject bestdoctoerDetails = getDocterDetailsById(maxKey);
+				 System.out.println("Best doctor of clinique details");
+				 System.out.println(bestdoctoerDetails);
+			}
+			public static JSONObject getDocterDetailsById(String doctorId) 
+			{
+				JSONObject doctor = null;
+				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
+				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
+				for(int i = 0; i < jsonArrayDoctor.size();i++)
+				{
+				    doctor = (JSONObject) jsonArrayDoctor.get(i);
+					String id = (String) doctor.get("id");
+					if(id.equals(doctorId))
+					{
+						return doctor;
+					}	
+				}
+				return null;
+			}
+			@SuppressWarnings("rawtypes")
+			public static void doctorPatientList() 
+			{
+				JSONObject jsonObjectappointment = readFromJsonFile("appoinment.json");
+				Set keyOfappointment = jsonObjectappointment.keySet();
+				Iterator iter = keyOfappointment.iterator();
+				while(iter.hasNext())
+				{
+					String idOfDoctor = (String) iter.next();
+					System.out.println("doctor details");
+					System.out.println(getDocterDetailsById(idOfDoctor));
+					System.out.println("------------------------------");
+					System.out.println("patient details");
+					JSONObject jsonObjectOfId = (JSONObject) jsonObjectappointment.get(idOfDoctor);
+					if(jsonObjectOfId.isEmpty())
+					{
+						System.out.println("have no patient associated with them");
+						
+					}
+					else
+					{
+						Set keyOfDate = jsonObjectOfId.keySet();
+						Iterator iter1 = keyOfDate.iterator();
+						
+						System.out.println("have following patient associated to it");
+						while(iter1.hasNext())
+						{
+							String date = (String) iter1.next();
+							JSONArray jsonArrayDate = (JSONArray) jsonObjectOfId.get(date);
+							for(int i = 0; i < jsonArrayDate.size();i++)
+							{
+								System.out.println(jsonArrayDate.get(i));
+							}
+						}
+					}
+					System.out.println();
+					System.out.println();
+					System.out.println("*************************************************");
+				}
+			}
 }

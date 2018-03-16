@@ -1,12 +1,18 @@
 package com.bridgelabz.program;
-class Node
+/***************************************************************************
+ * @purpose : structure for deck of cards using queue 
+ * @author  : Madhuri Chaudhari
+ * @version : 1.0
+ * @date    : 15/03/2018
+ ***************************************************************************/
+class Node1
 {
 	String data;
-	Node next;
+	Node1 next;
 }
 public class CardQueue
 {
-	Node front,rear;
+	Node1 front,rear;
 	int size;
 	
 	public CardQueue() 
@@ -22,8 +28,8 @@ public class CardQueue
 	}
 	public void push(String data)
 	{
-		Node oldrear =rear;
-		rear = new Node();
+		Node1 oldrear =rear;
+		rear = new Node1();
 		rear.data = data;
 		rear.next = null;
 		if(isEmpty())

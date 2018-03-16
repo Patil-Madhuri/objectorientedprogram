@@ -1,4 +1,10 @@
 package com.bridgelabz.program;
+/***************************************************************************
+ * @purpose : Commerical data processing
+ * @author  : Madhuri Chaudhari
+ * @version : 1.0
+ * @date    : 15/03/2018
+ ***************************************************************************/
 import com.bridgelabz.utility.Utility;
 
 public class CommericalDataProcessing 
