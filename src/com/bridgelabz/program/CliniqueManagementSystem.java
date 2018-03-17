@@ -25,7 +25,9 @@ public class CliniqueManagementSystem
 		System.out.println("4 Search patient by name");
 		System.out.println("5 Check best doctor of clinic");
 		System.out.println("6 See doctor patient relation");
-		System.out.println("7 Exit");
+		System.out.println("7. Doctor List");
+		System.out.println("8. Patient List");
+		System.out.println("9. Exit");
 		 choice = utility.inputInteger();
 		
 		switch (choice) 
@@ -71,7 +73,13 @@ public class CliniqueManagementSystem
 		case 6 :
 			Utility.doctorPatientList();
 			break;
-		case 7:
+		case 7 :
+			Utility.doctorList();
+			break;
+		case 8:
+			Utility.patientList();
+			break;
+		case 9:
 			System.out.println("*****Thanks*****");
 			System.exit(0);
 		default:

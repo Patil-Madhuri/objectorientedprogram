@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import org.json.simple.JSONArray;
@@ -25,6 +26,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.bridgelabz.program.CardQueue;
+import com.bridgelabz.program.Queue;
+import com.bridgelabz.program.Stack;
 public class Utility 
 {
 		static Scanner scanner;
@@ -182,11 +185,7 @@ public class Utility
 		@SuppressWarnings("rawtypes")
 		public static void readData()
 		{
-			File file = new File("inventory.json");
-			try {
-				FileReader reader = new FileReader(file);
-				JSONParser parser = new JSONParser();
-				JSONObject object =(JSONObject) parser.parse(reader);
+				JSONObject object =Utility.readFromJsonFile("inventory.json");
 				Iterator iterator = object.keySet().iterator();
 				while(iterator.hasNext())
 				{
@@ -198,19 +197,13 @@ public class Utility
 						@SuppressWarnings("unused")
 						String key1 = (String)iterator1.next();
 					
-					}System.out.println();
+					}
+
 					System.out.println("Total cost of "+object1.get("name") + " is: "
 								+ Double.parseDouble(object1.get("weight").toString())
 								* Double.parseDouble(object1.get("price").toString()));
 				}
-				
-			} catch (FileNotFoundException e) {
-				
-				e.printStackTrace();
-			} catch (IOException | ParseException e) {
-				
-				e.printStackTrace();
-			} 		
+					
 		}
 		
 		static String message="Hello <<Name>>, We have your full name as <<Full Name>> in our system. "
@@ -221,6 +214,9 @@ public class Utility
 		static String mNumber="0";
 		static String date;
 
+		/**
+		 *  set the <<name>> instead of username in the message string
+		 */
 		public static void setFirstName() 
 		{
 			System.out.println("Enter The First Name :");
@@ -235,6 +231,9 @@ public class Utility
 
 		}
 
+		/**
+		 * set the <<full name>> instead of user full name in the message string
+		 */
 		public static void setLastName()
 		{
 			System.out.println("Enter The Last Name :");
@@ -249,6 +248,9 @@ public class Utility
 		}
 
 
+		/**
+		 * set the <<mobile number>> instead of user mobile number in the message string
+		 */
 		public static void setMobileNumber() 
 		{
 			System.out.println("Enter The Mobile Number :");
@@ -262,6 +264,9 @@ public class Utility
 		}
 	
 
+		/**
+		 * set the <<date>> instead of current date in the message string
+		 */
 		public static void setDate() 
 		{
 			Date date = new Date();
@@ -271,7 +276,7 @@ public class Utility
 			message = message.replace("01/01/2016", d1[0]);
 
 		}
-		//is ten digits validation System.out.println();
+		//is ten digits validation for the mobile number
 		public static boolean isTenDigit(String number)
 		{
 			String matcher="^[0-9]+$";
@@ -282,6 +287,7 @@ public class Utility
 			return false;
 		}
 
+		//validation for the name that name does not number
 		public static boolean iscontainNumber(String name) 
 		{
 			if(name.matches("[a-zA-Z]+\\.?"))
@@ -295,8 +301,12 @@ public class Utility
 			
 		}
 
+		/**
+		 * @return
+		 * replace using Regex
+		 */
 		public static String RegexReplace()
-		{System.out.println();
+		{
 			String firstName="<<Name>>";
 			String fullName="<<Full Name>>";
 			String mobileno="xxxxxxxxxx" ;
@@ -326,6 +336,9 @@ public class Utility
 			return message;
 		}
 		
+		/**
+		 *  printing the stock report
+		 */
 		@SuppressWarnings("unchecked")
 		public static void stockReport()
 		{
@@ -345,51 +358,49 @@ public class Utility
 				array[i] = utility.inputString();
 			}
 
-
 			for(int i=0; i<number; i++)
 			{
 				System.out.println("Enter the number of shares for "+array[i]+" and share amount");
 				share[i] = utility.inputInteger();
 				amount[i] =utility.inputInteger();
 			}
-			for(int i=0; i<number; i++){
-				total[i] = share[i]*amount[i];
-			}System.out.println();
-			System.out.println();
-			System.out.println("*******************Stock Report**************************");
-			System.out.println();
-			System.out.println("Company Name\tShares\tPrice\ttotal of each");
-			System.out.println();
-			PrintWriter printWriter =null;
-			try {
-				printWriter = new PrintWriter("StockReport.json");
-			} catch (FileNotFoundException e1) {
-				
-				e1.printStackTrace();
-			}
-			
 			for(int i=0; i<number; i++)
 			{
-				System.out.println("\t"+array[i]+"\t"+share[i]+"\t"+amount[i]+"\t"+total[i]+"/-");	
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("Company Name",array[i]);
-				jsonObject.put("Shares",share[i]);
-				jsonObject.put("Price",amount[i]);
-				jsonObject.put("total",total[i]);
-				jsonArray.add(jsonObject);
-				
-				
-			}	
+				total[i] = share[i]*amount[i];
+			}
+			
+			System.out.println("\n\n*******************Stock Report**************************");
+			
+			System.out.println("\n\nCompany Name\tShares\tPrice\ttotal of each");
+			try 
+			{
+				PrintWriter	printWriter = new PrintWriter("StockReport.json");
+				for(int i=0; i<number; i++)
+				{
+					System.out.println("\t"+array[i]+"\t"+share[i]+"\t"+amount[i]+"\t"+total[i]+"/-");	
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("Company Name",array[i]);
+					jsonObject.put("Shares",share[i]);
+					jsonObject.put("Price",amount[i]);
+					jsonObject.put("total",total[i]);
+					jsonArray.add(jsonObject);	
+				}	
 			
 			printWriter.write(jsonArray.toJSONString());
 			printWriter.flush();
 			printWriter.close();
 			System.out.println();
-			for(int i=0; i<number; i++){
+			for(int i=0; i<number; i++)
+			{
 
 				totalStock+= share[i]*amount[i];
 			}
 			System.out.println("Total stock is: "+totalStock);
+		}
+		catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
 		}
 		
 		/** deck of cards
@@ -486,6 +497,9 @@ public class Utility
 
 		}
 		
+		/**
+		 * create account for buying and selling share 
+		 */
 		@SuppressWarnings("unchecked")
 		public static void createAccount()  
 		{
@@ -539,13 +553,13 @@ public class Utility
 			}
 			else
 			{
-				System.out.println("File does not exits");
+				System.out.println("File does not exists");
 			}
 		}
 		
 
 		/**
-		 * 
+		 * buying the share 
 		 */
 		@SuppressWarnings("unchecked")
 		public static void buyShare() 
@@ -636,7 +650,7 @@ public class Utility
 		
 		
 		/**
-		 * 
+		 * selling share
 		 */
 		@SuppressWarnings("unchecked")
 		public static void saleShare() 
@@ -647,11 +661,11 @@ public class Utility
 			if(file.exists() && file1.exists())
 			{
 				// reading stock file
-				try {
-					FileReader fr = new FileReader(file);
-				
+				try 
+				{
+				FileReader reader = new FileReader(file);
 				JSONParser parser = new JSONParser();
-				JSONArray stock = (JSONArray) parser.parse(fr);
+				JSONArray stock = (JSONArray) parser.parse(reader);
 				//reading share file
 				
 				FileReader reader2 = new FileReader(file1);
@@ -660,39 +674,39 @@ public class Utility
 				
 				System.out.println("Enter the user");
 				String name =scanner.next();
-				Iterator<?> itr = stock.iterator();
-				Iterator<?> itr1 = share.iterator();
+				Iterator<?> iterator = stock.iterator();
+				Iterator<?> iterator2 = share.iterator();
 				boolean flag = false;
-				while (itr.hasNext())
+				while (iterator.hasNext())
 				{
-					JSONObject obj=(JSONObject) itr.next();
-					if(obj.get("Name").equals(name))
+					JSONObject jsonObject=(JSONObject) iterator.next();
+					if(jsonObject.get("Name").equals(name))
 					{
 						System.out.println("Enter the share sysmbol to sale share:[@,!,#]");
 						String symbol = scanner.next();
 						System.out.println("Enter the number of share to sale");
 						int count=scanner.nextInt();
-						//obj.put("Share Symbol", sym);
-						while(itr1.hasNext())
+						
+						while(iterator2.hasNext())
 						{
-							JSONObject obj1 = (JSONObject) itr1.next();
-							if(obj1.get("Symbol").equals(symbol))
+							JSONObject jsonObject2 = (JSONObject) iterator2.next();
+							if(jsonObject2.get("Symbol").equals(symbol))
 							{	
-								int bal =  Integer.parseInt(obj.get("Balance").toString());
-								int price = Integer.parseInt(obj1.get("Price").toString());
-								int noShare =  Integer.parseInt(obj.get("ShareCount").toString());
-								int stockShare = Integer.parseInt(obj1.get("Count").toString());
+								int bal =  Integer.parseInt(jsonObject.get("Balance").toString());
+								int price = Integer.parseInt(jsonObject2.get("Price").toString());
+								int noShare =  Integer.parseInt(jsonObject.get("ShareCount").toString());
+								int stockShare = Integer.parseInt(jsonObject2.get("Count").toString());
 								int saleprize = count*price;
 								int newbal = bal+saleprize;
 								int sharecountcus = noShare-count;
 								int sharecountstock = stockShare+count;
-								obj.remove("Balance");
-								obj.remove("ShareCount");
-								obj1.remove("Count");
+								jsonObject.remove("Balance");
+								jsonObject.remove("ShareCount");
+								jsonObject2.remove("Count");
 								
-								obj.put("Balance",newbal);
-								obj.put("ShareCount",sharecountcus);
-								obj1.put("Count", sharecountstock);
+								jsonObject.put("Balance",newbal);
+								jsonObject.put("ShareCount",sharecountcus);
+								jsonObject2.put("Count", sharecountstock);
 								Date d = new Date();
 								String date = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a").format(d);
 								System.out.println("Date "+date);
@@ -703,20 +717,20 @@ public class Utility
 						}
 					}
 
-					FileWriter fs = new FileWriter(file);
-					fs.write(JSONValue.toJSONString(stock));
+					FileWriter writer = new FileWriter(file);
+					writer.write(JSONValue.toJSONString(stock));
 					
-					fs.flush();
-					fs.close();
+					writer.flush();
+					writer.close();
 				}
 				if(flag == false)
 				{
 					System.out.println("User name not exits");
 				}
-				FileWriter fw = new FileWriter(file1);
-				fw.write(JSONValue.toJSONString(share));
-				fw.flush();
-				fw.close();
+				FileWriter writer = new FileWriter(file1);
+				writer.write(JSONValue.toJSONString(share));
+				writer.flush();
+				writer.close();
 			}
 			 catch (FileNotFoundException e) {
 				
@@ -765,6 +779,9 @@ public class Utility
 		}
 			
 			
+			/**
+			 *  Add person details in address book
+			 */
 			@SuppressWarnings("unchecked")
 			public static void addPerson()
 			{
@@ -813,7 +830,6 @@ public class Utility
 				}
 				catch (FileNotFoundException e) 
 				{
-			
 					e.printStackTrace();
 				}					
 				catch(IOException | ParseException e)
@@ -823,6 +839,9 @@ public class Utility
 			}
 			
 
+			/**
+			 * Edit person details in address book 
+			 */
 			@SuppressWarnings("unchecked")
 			public static void editDetails()
 			{
@@ -831,7 +850,6 @@ public class Utility
 				boolean present = false;
 				System.out.println("enter the name of the person");
 				String firstName = utility.inputString();
-				
 				try 
 				{
 					File file = new File("address.json");
@@ -851,8 +869,7 @@ public class Utility
 						}
 					}
 					if(present)
-					{
-						
+					{						
 						int choice=0;
 						do
 						{
@@ -904,15 +921,16 @@ public class Utility
 						while(choice > 0);
 						jsonArray.set(index, person);
 						jsonObject.put("address", jsonArray);
+						//write into file
 						PrintWriter printWriter = new PrintWriter("address.json");
 						printWriter.write(jsonObject.toJSONString());
 						printWriter.flush();
 						printWriter.close();
-						System.out.println("person detail edited");
+						System.out.println("Person detail edited successfully");
 					}
 					else
 					{
-						System.out.println("person not persent");
+						System.out.println("Person is not present in address book");
 					}
 				} catch (FileNotFoundException e) {
 			
@@ -924,6 +942,9 @@ public class Utility
 				}
 		}
 		
+			/**
+			 * Delete the details of the person from address book 
+			 */
 			@SuppressWarnings("unchecked")
 			public static void deleteDetails()
 			{
@@ -936,6 +957,7 @@ public class Utility
 				
 				
 					try {
+						//reading the data from file
 						File file = new File("address.json");
 						FileReader reader = new FileReader(file);
 						JSONParser parser = new JSONParser();
@@ -956,6 +978,7 @@ public class Utility
 						{
 							jsonArray.remove(index);
 							jsonObject.put("address", jsonArray);
+							//write into file
 							PrintWriter printWriter = new PrintWriter("address.json");
 							printWriter.write(jsonObject.toJSONString());
 							printWriter.flush();
@@ -977,10 +1000,14 @@ public class Utility
 					}
 			}
 			
+			/**
+			 * sort the person in alphabetically order by their names
+			 */
 			@SuppressWarnings("unchecked")
 			public static void sortByName() 
 			{	
 				try {
+					//read data from file
 					File file = new File("address.json");
 					FileReader reader = new FileReader(file);
 					JSONParser parser = new JSONParser();
@@ -1007,6 +1034,7 @@ public class Utility
 						}
 					}
 					jsonObject.put("address", jsonArray);
+					//write data into file
 					PrintWriter printWriter = new PrintWriter("address.json");
 					printWriter.write(jsonObject.toJSONString());
 					printWriter.flush();
@@ -1025,11 +1053,15 @@ public class Utility
 				}
 				
 			}
+			/**
+			 * sort the address book by zip code(pincode) 
+			 */
 			@SuppressWarnings("unchecked")
 			public static void sortByZip() 
 			{
 
 				try {
+					//reading data from file
 					File file = new File("address.json");
 					FileReader reader = new FileReader(file);
 					JSONParser parser = new JSONParser();
@@ -1059,6 +1091,7 @@ public class Utility
 						}
 					}
 					jsonObject.put("address", jsonArray);
+					//writing data in file
 					PrintWriter printWriter = new PrintWriter("address.json");
 					printWriter.write(jsonObject.toJSONString());
 					printWriter.flush();
@@ -1077,11 +1110,16 @@ public class Utility
 				}
 				
 			}
+			
+			/**
+			 * Displaying the details of address book 
+			 */
 			public static void displayAddressBook()
 			{
 				try 
 				{
-				File file = new File("address.json");
+					//reading data from file
+					File file = new File("address.json");
 					FileReader reader = new FileReader(file);
 					JSONParser parser = new JSONParser();
 					JSONObject jsonObject =(JSONObject) parser.parse(reader);
@@ -1121,7 +1159,7 @@ public class Utility
 			   
 				return jsonObject; 
 			}
-			public static void printJsonObjectToFile(String fileName, JSONObject jsonObject) 
+			public static void writeJsonObjectToFile(String fileName, JSONObject jsonObject) 
 			{
 				PrintWriter printWriter;
 				try {
@@ -1135,19 +1173,21 @@ public class Utility
 				}
 				
 			}
+			/**
+			 * add doctor to clinique management system
+			 */
 			@SuppressWarnings("unchecked")
 			public static void addDoctor() 
 			{
 				Utility utility = new Utility();
 				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
 				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
-				boolean itrate = true;
+				boolean iterate = true;
 				String id = null;
-				boolean idPresent = false;
-				
-				while(itrate)
+				boolean idpresent;				
+				while(iterate)
 				{
-					idPresent = false;
+					idpresent = false;
 					System.out.println("Enter the id of doctor");
 				    id = utility.inputString();
 					for(int i = 0; i < jsonArrayDoctor.size();i++)
@@ -1156,26 +1196,29 @@ public class Utility
 						String doctorId = (String) doctorObject.get("id");
 						if(doctorId.equals(id))
 						{
-							idPresent = true;
+							idpresent = true;
 							System.out.println("This id is use by another doctor use different one");
 							break;
 						}
 					}
-					if(!idPresent)
+					if(!idpresent)
 					{
-						itrate = false;
+						iterate = false;
 					}
 				}
 				System.out.println("Enter the name of doctor");
 				String doctorName = utility.inputString();
+				
 				System.out.println("Enter the specialization of doctor");
 				String doctorSpecialization = utility.inputString();
+				
 				System.out.println("Enter availability of doctor");
 				System.out.println("You can only enter one choice out of three");
 				System.out.println("AM if doctor is present in morning");
 				System.out.println("PM if doctor is present in evening");
 				System.out.println("Both if doctor is present both the time");
 				String availability = utility.inputString();
+				
 				JSONObject newDoctorObject = new JSONObject();
 				
 				JSONObject appointment = readFromJsonFile("appoinment.json");
@@ -1186,11 +1229,15 @@ public class Utility
 				newDoctorObject.put("availability", availability);
 				jsonArrayDoctor.add(newDoctorObject);
 				jsonObjectDoctor.put("doctor", jsonArrayDoctor);
-				printJsonObjectToFile("addDoctor.json", jsonObjectDoctor);
-				printJsonObjectToFile("appoinment.json", appointment);
+				writeJsonObjectToFile("addDoctor.json", jsonObjectDoctor);
+				writeJsonObjectToFile("appoinment.json", appointment);
 				System.out.println("Doctor Added");
 				
 				}
+			
+			/**
+			 *add patient to clinique management system 
+			 */
 			@SuppressWarnings("unchecked")
 			public static void addPatients() 
 			{
@@ -1235,9 +1282,14 @@ public class Utility
 				newpatientsObject.put("age", age);
 				jsonArraypatients.add(newpatientsObject);
 				jsonObjectPatients.put("patients", jsonArraypatients);
-				printJsonObjectToFile("addPatient.json", jsonObjectPatients);
+				writeJsonObjectToFile("addPatient.json", jsonObjectPatients);
 				System.out.println("Patient Added");
 			}
+			
+			/**
+			 * @param pateint
+			 * search the doctor in doctor list and if dotor is available then take an appoinment
+			 */
 			public static void serachAndbookdoctor(JSONObject pateint) 
 			{
 				Utility utility = new Utility();
@@ -1248,8 +1300,8 @@ public class Utility
 				switch (choise) 
 				{
 				case 1:
-				System.out.println("Enter the name of the doctor");	
-				serachDoctorByName(utility.inputString(),pateint);
+					System.out.println("Enter the name of the doctor");	
+					serachDoctorByName(utility.inputString(),pateint);
 					break;
 				case 2:
 					System.out.println("Enter the id of doctor");
@@ -1261,9 +1313,15 @@ public class Utility
 					break;
 
 				default:
-					break;
+					System.out.println("Invalid choice");
 				}
 			}
+			
+			/**
+			 * @param doctorSpecialization
+			 * @param pateint
+			 * search doctor in doctor list by their specialization
+			 */
 			public static void serachDoctorBySpecialization(String doctorSpecialization,JSONObject pateint) 
 			{
 				ArrayList<JSONObject> doctorList = new ArrayList<>();
@@ -1309,6 +1367,11 @@ public class Utility
 				}
 			}
 
+			/**
+			 * @param doctorId
+			 * @param pateint
+			 * search doctor by their id in doctor list
+			 */
 			@SuppressWarnings("unused")
 			public static void serachDoctorById(String doctorId,JSONObject pateint) 
 			{
@@ -1350,6 +1413,11 @@ public class Utility
 					System.out.println("The doctor you serched is not avaliable");
 				}
 			}
+			/**
+			 * @param doctorName
+			 * @param pateint
+			 * serach doctor by name in doctor list of clinique management system
+			 */
 			@SuppressWarnings("unused")
 			public static void serachDoctorByName(String doctorName,JSONObject pateint) 
 			{
@@ -1393,6 +1461,11 @@ public class Utility
 					System.out.println("The doctor you searched is not avaliable");
 				}
 			}
+			/**
+			 * @param id
+			 * @param patient
+			 * check the doctor is available or not to take appoinment 
+			 */
 			@SuppressWarnings({ "unchecked", "unused" })
 			static void checkavalbilityOfdocterbyId(String id,JSONObject patient) 
 			{
@@ -1413,7 +1486,7 @@ public class Utility
 						patentarray.add(patient);
 						jsonObjectforId.put(date, patentarray);
 						jsonObjectappointment.put(id, jsonObjectforId);
-						printJsonObjectToFile("appoinment.json", jsonObjectappointment);
+						writeJsonObjectToFile("appoinment.json", jsonObjectappointment);
 						System.out.println("Your appointment is fixed");
 						break;
 					default:
@@ -1435,7 +1508,7 @@ public class Utility
 							oldpatientarray.add(patient);
 							jsonObjectforId.put(date, oldpatientarray);
 							jsonObjectappointment.put(id, jsonObjectforId);
-							printJsonObjectToFile("appointment.json", jsonObjectappointment);
+							writeJsonObjectToFile("appointment.json", jsonObjectappointment);
 							System.out.println("your appointment is fixed");
 							break;
 
@@ -1449,6 +1522,10 @@ public class Utility
 					}
 				}
 			}
+			
+			/**
+			 * search patient by their name, id and contact number 
+			 */
 			public static void searchPatient() 
 			{
 				ArrayList<JSONObject> arrayListPatient = new ArrayList<>();
@@ -1532,12 +1609,15 @@ public class Utility
 					}
 					else
 					{
-						System.out.println("patient with mobil number = " + mobilNumber + "not present");
+						System.out.println("patient with mobile number = " + mobilNumber + "not present");
 					}
 				default:
-					break;
+					System.out.println("Invalid choice");
 				}
 			}
+			/**
+			 * Best doctor of clinique by assuming the number of appoinments 
+			 */
 			@SuppressWarnings("rawtypes")
 			public static void bestDoctor() 
 			{
@@ -1581,6 +1661,12 @@ public class Utility
 				 System.out.println("Best doctor of clinique details");
 				 System.out.println(bestdoctoerDetails);
 			}
+			
+			/**
+			 * @param doctorId
+			 * @return
+			 * get the details of doctor by their id
+			 */
 			public static JSONObject getDocterDetailsById(String doctorId) 
 			{
 				JSONObject doctor = null;
@@ -1597,15 +1683,18 @@ public class Utility
 				}
 				return null;
 			}
+			/**
+			 * Doctor and Patient Report
+			 */
 			@SuppressWarnings("rawtypes")
 			public static void doctorPatientList() 
 			{
 				JSONObject jsonObjectappointment = readFromJsonFile("appoinment.json");
 				Set keyOfappointment = jsonObjectappointment.keySet();
-				Iterator iter = keyOfappointment.iterator();
-				while(iter.hasNext())
+				Iterator iterator = keyOfappointment.iterator();
+				while(iterator.hasNext())
 				{
-					String idOfDoctor = (String) iter.next();
+					String idOfDoctor = (String) iterator.next();
 					System.out.println("doctor details");
 					System.out.println(getDocterDetailsById(idOfDoctor));
 					System.out.println("------------------------------");
@@ -1619,12 +1708,12 @@ public class Utility
 					else
 					{
 						Set keyOfDate = jsonObjectOfId.keySet();
-						Iterator iter1 = keyOfDate.iterator();
+						Iterator iterator2 = keyOfDate.iterator();
 						
 						System.out.println("have following patient associated to it");
-						while(iter1.hasNext())
+						while(iterator2.hasNext())
 						{
-							String date = (String) iter1.next();
+							String date = (String) iterator2.next();
 							JSONArray jsonArrayDate = (JSONArray) jsonObjectOfId.get(date);
 							for(int i = 0; i < jsonArrayDate.size();i++)
 							{
@@ -1636,5 +1725,145 @@ public class Utility
 					System.out.println();
 					System.out.println("*************************************************");
 				}
+			}
+			
+			/**
+			 * Printing the list of doctors in clinique
+			 */
+			public static void doctorList()
+			{
+				File file = new File("addDoctor.json");
+				try {
+					FileReader reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject = (JSONObject) parser.parse(reader);
+					JSONArray jsonArray = (JSONArray) jsonObject.get("doctor");
+					for(int i=0;i<jsonArray.size();i++)
+					{
+						System.out.println(jsonArray.get(i));
+					}
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				} catch (IOException | ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			}
+			
+			/**
+			 * Printing the list of Patients in clinique
+			 */
+			public static void patientList()
+			{
+				File file = new File("addPatient.json");
+				try {
+					FileReader reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject = (JSONObject) parser.parse(reader);
+					JSONArray jsonArray = (JSONArray) jsonObject.get("patients");
+					for(int i=0;i<jsonArray.size();i++)
+					{
+						System.out.println(jsonArray.get(i));
+					}
+					} 
+				 catch (FileNotFoundException e) 
+					{
+					 e.printStackTrace();
+					}
+				catch (IOException | ParseException e) 
+				{	
+					e.printStackTrace();
+				}	
+			}
+		
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			public static void companyShare()
+			{
+				Stack stack = new Stack();
+				Queue queue = new Queue();
+				File file = new File("companyShare.json");
+				try {
+					FileReader	reader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONArray array = (JSONArray) parser.parse(reader);
+					Iterator iterator = array.iterator();
+					System.out.println("Enter the share symbol");
+					String symbol = utility.inputString();
+					while(iterator.hasNext())
+					{
+						JSONObject obj = (JSONObject) iterator.next();
+						//
+						if(obj.containsKey(symbol))
+						{
+							System.out.println("Share symbol already their in list");
+							System.out.println("To add share press 1 and To remove share press 2");
+							int choice = utility.inputInteger();
+							switch(choice)
+							{
+							case 1 : 
+									System.out.println("Enter the number of share want to buy");
+									int num_share = utility.inputInteger();
+									JSONObject object = (JSONObject) obj.get(symbol);
+									int key = Integer.parseInt(object.get("NumOfShare").toString());
+									int new_shares_count = key + num_share;
+									object.remove("NumOfShare");
+									object.put("NumOfShare", new_shares_count);
+									FileWriter writer = new FileWriter(file);
+									writer.write(JSONValue.toJSONString(array));
+									System.out.println("Buy successfully");
+									writer.flush();
+									writer.close();
+								
+							break;
+						case 2 : 	System.out.println("Enter the amount of share to sale");
+									int amt = utility.inputInteger();
+									JSONObject object1 = (JSONObject) obj.get(symbol);
+									int share_amt = Integer.parseInt(object1.get("ShareAmt").toString());
+									int num_share1 = Integer.parseInt(object1.get("NumOfShare").toString());
+									int new_shares_count1 = num_share1 - (amt/share_amt);
+									object1.remove("NumOfShare");
+									object1.put("NumOfShare", new_shares_count1);
+									FileWriter writer1 = new FileWriter(file);
+									writer1.write(JSONValue.toJSONString(array));
+									System.out.println("Removed successfully");
+									writer1.flush();
+									writer1.close();
+							break;
+						}
+						
+					}
+					else
+					{
+						JSONObject object = new JSONObject();
+						System.out.println("Enter number of share");
+						int num = utility.inputInteger();
+						System.out.println("Enter share amount");
+						int amt = utility.inputInteger();
+						object.put("NumOfShare",num );
+						object.put("ShareAmt",amt);
+						obj.put(symbol,object);
+						System.out.println("Added succesfull");
+						stack.push(symbol);
+						stack.display();
+						queue.insert(symbol);
+						queue.display();
+						FileWriter writer = new FileWriter(file);
+						writer.write(JSONValue.toJSONString(array));
+						writer.flush();
+						writer.close();
+					}
+				}
+				}
+				catch (FileNotFoundException e)
+				{
+					
+					e.printStackTrace();
+				} catch (IOException | ParseException e) 
+				{
+					
+					e.printStackTrace();
+				}
+				
 			}
 }
