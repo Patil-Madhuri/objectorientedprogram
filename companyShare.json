@@ -1,1 +1,33 @@
-[{"@":{"NumOfShare":2300,"ShareAmt":1000},"!":{"NumOfShare":102,"ShareAmt":2000},"#":{"NumOfShare":100,"ShareAmt":1000},"$":{"NumOfShare":1000,"ShareAmt":0},"%":{"NumOfShare":100,"ShareAmt":100},"&":{"NumOfShare":122,"ShareAmt":40000},"^":{"NumOfShare":100,"ShareAmt":10000},"?":{"NumOfShare":99,"ShareAmt":10000}}]
+[
+	{
+		"@": {
+			"NumOfShare": 1000,
+			"ShareAmt": 1000000000
+		},
+		"!": {
+			"NumOfShare": 102,
+			"ShareAmt": 2000
+		},
+		"#": {
+			"NumOfShare": 100,
+			"ShareAmt": 1000
+		},
+		
+		"%": {
+			"NumOfShare": 100,
+			"ShareAmt": 100
+		},
+		"&": {
+			"NumOfShare": 122,
+			"ShareAmt": 40000
+		},
+		"^": {
+			"NumOfShare": 100,
+			"ShareAmt": 10000
+		},
+		"?": {
+			"NumOfShare": 99,
+			"ShareAmt": 10000
+		}
+	}
+]

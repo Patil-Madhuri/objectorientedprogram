@@ -1,4 +1,10 @@
 package com.bridgelabz.utility;
+/*************************************************************************
+ * @purpose Object oriented programs Utility class
+ * @author  Madhuri Chaudhari
+ * @version 1.0
+ * @since 14/03/2018
+ *************************************************************************/
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,15 +22,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map.Entry;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import com.bridgelabz.program.CardQueue;
 import com.bridgelabz.program.Queue;
 import com.bridgelabz.program.Stack;
@@ -1418,7 +1421,6 @@ public class Utility
 			 * @param pateint
 			 * serach doctor by name in doctor list of clinique management system
 			 */
-			@SuppressWarnings("unused")
 			public static void serachDoctorByName(String doctorName,JSONObject pateint) 
 			{
 				Utility utility = new Utility();
@@ -1792,19 +1794,21 @@ public class Utility
 					String symbol = utility.inputString();
 					while(iterator.hasNext())
 					{
-						JSONObject obj = (JSONObject) iterator.next();
+						JSONObject jsonObject = (JSONObject) iterator.next();
 						//
-						if(obj.containsKey(symbol))
+						if(jsonObject.containsKey(symbol))
 						{
 							System.out.println("Share symbol already their in list");
-							System.out.println("To add share press 1 and To remove share press 2");
+							System.out.println("1.Add Share \n2.Remove share");
 							int choice = utility.inputInteger();
+														
 							switch(choice)
 							{
 							case 1 : 
 									System.out.println("Enter the number of share want to buy");
 									int num_share = utility.inputInteger();
-									JSONObject object = (JSONObject) obj.get(symbol);
+									JSONObject object = (JSONObject) jsonObject.get("Symbol");
+									System.out.println(object);
 									int key = Integer.parseInt(object.get("NumOfShare").toString());
 									int new_shares_count = key + num_share;
 									object.remove("NumOfShare");
@@ -1818,7 +1822,7 @@ public class Utility
 							break;
 						case 2 : 	System.out.println("Enter the amount of share to sale");
 									int amt = utility.inputInteger();
-									JSONObject object1 = (JSONObject) obj.get(symbol);
+									JSONObject object1 = (JSONObject) jsonObject.get("Symbol");
 									int share_amt = Integer.parseInt(object1.get("ShareAmt").toString());
 									int num_share1 = Integer.parseInt(object1.get("NumOfShare").toString());
 									int new_shares_count1 = num_share1 - (amt/share_amt);
@@ -1837,12 +1841,12 @@ public class Utility
 					{
 						JSONObject object = new JSONObject();
 						System.out.println("Enter number of share");
-						int num = utility.inputInteger();
+						int number = utility.inputInteger();
 						System.out.println("Enter share amount");
-						int amt = utility.inputInteger();
-						object.put("NumOfShare",num );
-						object.put("ShareAmt",amt);
-						obj.put(symbol,object);
+						int amount = utility.inputInteger();
+						object.put("NumOfShare",number );
+						object.put("ShareAmt",amount);
+						jsonObject.put(symbol,object);
 						System.out.println("Added succesfull");
 						stack.push(symbol);
 						stack.display();
@@ -1857,7 +1861,6 @@ public class Utility
 				}
 				catch (FileNotFoundException e)
 				{
-					
 					e.printStackTrace();
 				} catch (IOException | ParseException e) 
 				{

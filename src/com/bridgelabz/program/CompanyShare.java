@@ -10,8 +10,6 @@ public class CompanyShare
 {
 	public static void main(String[] args)
 	{
-	Utility.companyShare();	
-	
+		Utility.companyShare();	
 	}
-	
 }

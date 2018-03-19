@@ -13,5 +13,6 @@ public class InventoryDataManagement
 	{
 		Utility.writeData();
 		Utility.readData();
+		
 	}
 }

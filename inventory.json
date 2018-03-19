@@ -1,17 +1,1 @@
-{
-	"pulse": {
-		"price": 200.0,
-		"name": "turdal",
-		"weight": 2.0
-	},
-	"wheat": {
-		"price": 50.0,
-		"name": "sharbati",
-		"weight": 2.0
-	},
-	"rice": {
-		"price": 100.0,
-		"name": "vadakolam",
-		"weight": 2.0
-	}
-}
+{"pulse":{"price":50.0,"name":"turdal","weight":2.0},"wheat":{"price":60.0,"name":"sharbati","weight":2.0},"rice":{"price":100.0,"name":"vadakolam","weight":2.0}}
