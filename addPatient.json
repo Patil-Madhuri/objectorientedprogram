@@ -1,1 +1,16 @@
-{"patients":[{"name":"deepak","mobilNumber":"420","id":"1","age":"80"},{"name":"preethi","mobilNumber":"9874563210","id":"2","age":"20"}]}
+{
+	"patients": [
+		{
+			"name": "deepak",
+			"mobilNumber": "420",
+			"id": "1",
+			"age": "80"
+		},
+		{
+			"name": "preethi",
+			"mobilNumber": "9874563210",
+			"id": "2",
+			"age": "20"
+		}
+	]
+}
