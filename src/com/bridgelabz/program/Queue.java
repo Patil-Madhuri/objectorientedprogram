@@ -1,4 +1,5 @@
 package com.bridgelabz.program;
+import java.util.Date;
 /***************************************************************************
  * @purpose : structure of queue for the company share
  * @author  : Madhuri Chaudhari
@@ -29,6 +30,22 @@ public class Queue
 	    public void insert(String symbol)
 	    {
 	        Node nptr = new Node(symbol, null);
+	        if (rear == null)
+	        {
+	            front = nptr;
+	            rear = nptr;
+	        }
+	        else
+	        {
+	            rear.setLink(nptr);
+	            rear = rear.getLink();
+	        }
+	        size++ ;
+	    }
+	    
+	    public void insert(Date date)
+	    {
+	        Node nptr = new Node(date, null);
 	        if (rear == null)
 	        {
 	            front = nptr;

@@ -22,8 +22,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
@@ -500,288 +505,7 @@ public class Utility
 
 		}
 		
-		/**
-		 * create account for buying and selling share 
-		 */
-		@SuppressWarnings("unchecked")
-		public static void createAccount()  
-		{
-			File file = new File("UserDetails.json");
-			if(file.exists())
-			{
-				@SuppressWarnings("unused")
-				JSONArray arr = new JSONArray();
-			
-				boolean check= true;
-				while (check)
-				{	
-					System.out.println("Want to add user: y or n");
-					char ch = scanner.next().charAt(0); 
-					if(ch=='y')
-					{	
-						try
-						{
-						FileReader reader = new FileReader(file);
-						JSONParser parser = new JSONParser();
-						JSONArray array = (JSONArray) parser.parse(reader);
-						JSONObject json = new JSONObject();
-				        System.out.println("Enter name");
-				        String name =scanner.next();
-				        System.out.println("Enter balance");
-				        int bal = scanner.nextInt();
-				        json.put("Name",name);
-				        json.put("Balance",bal);
-				        json.put("ShareCount", 100);
-				    
-				        array.add(json);
-				      	FileWriter fw = new FileWriter(file);
-				        fw.write(JSONArray.toJSONString(array));
-				        fw.flush();
-				        fw.close();
-			
-					}catch (FileNotFoundException e) 
-						{
-						e.printStackTrace();
-					} catch (IOException | ParseException e) {
-						
-						e.printStackTrace();
-					} 
-					}
-					else
-					{
-						check=false;
-					}
-				}
-				
-			}
-			else
-			{
-				System.out.println("File does not exists");
-			}
-		}
-		
 
-		/**
-		 * buying the share 
-		 */
-		@SuppressWarnings("unchecked")
-		public static void buyShare() 
-		{
-			File file = new File("UserDetails.json");
-			File file1 = new File("StockSymbol.json");
-			if (file.exists() && file1.exists()) 
-			{
-				try 
-				{
-					FileReader reader1 = new FileReader(file);
-					JSONParser parser = new JSONParser();
-					JSONArray stock = (JSONArray) parser.parse(reader1);
-					// reading share file
-	
-					FileReader reader = new FileReader(file1);
-					JSONParser parser1 = new JSONParser();
-					JSONArray share = (JSONArray) parser1.parse(reader);
-	
-					System.out.println("Enter the user");
-					String name = scanner.next();
-					Iterator<?> iterator= stock.iterator();
-					Iterator<?> iterator2 = share.iterator();
-					boolean flag = false;
-					while (iterator.hasNext()) {
-					JSONObject obj = (JSONObject) iterator.next();
-					if (obj.get("Name").equals(name)) 
-					{
-						System.out.println("Enter the share symbol to buy share:[@,!,#]");
-						String symbol =scanner.next();
-						
-						while (iterator2.hasNext()) 
-						{
-							JSONObject obj1 = (JSONObject) iterator2.next();
-							if (obj1.get("Symbol").equals(symbol)) 
-							{
-								System.out.println("Enter the amount");
-								int amount = scanner.nextInt();
-								int balance = Integer.parseInt(obj.get("Balance").toString());
-								int price = Integer.parseInt(obj1.get("Price").toString());
-								int noShare = Integer.parseInt(obj.get("ShareCount").toString());
-								int stockShare = Integer.parseInt(obj1.get("Count").toString());
-								int numofshare = amount / price;
-								int newbal = balance - amount;
-								int sharecountcus = noShare + numofshare;
-								int sharecountstock = stockShare - numofshare;
-								obj.remove("Balance");
-								obj.remove("ShareCount");
-								obj1.remove("Count");
-
-								obj.put("Balance", newbal);
-								obj.put("ShareCount", sharecountcus);
-								obj1.put("Count", sharecountstock);
-								Date d = new Date();
-								String date = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a").format(d);
-								System.out.println("Date " + date);
-								flag = true;
-								break;
-							}
-						}
-						
-					}
-					FileWriter fs = new FileWriter(file);
-					fs.write(JSONValue.toJSONString(stock));
-					fs.flush();
-					fs.close();
-				}
-				if (flag == false) {
-					System.out.println("User name not exits");
-				}
-				FileWriter fw = new FileWriter(file1);
-				fw.write(JSONValue.toJSONString(share));
-				fw.flush();
-				fw.close();
-			}
-			 catch (FileNotFoundException e) {
-				
-				e.printStackTrace();
-			} catch (IOException | ParseException e) {
-				
-				e.printStackTrace();
-			} 
-			}else {
-				System.out.println("File does not exits");
-			}
-			
-		}
-		
-		
-		/**
-		 * selling share
-		 */
-		@SuppressWarnings("unchecked")
-		public static void saleShare() 
-		{
-			
-			File file = new File("UserDetails.json");
-			File file1 =new File("StockSymbol.json");
-			if(file.exists() && file1.exists())
-			{
-				// reading stock file
-				try 
-				{
-				FileReader reader = new FileReader(file);
-				JSONParser parser = new JSONParser();
-				JSONArray stock = (JSONArray) parser.parse(reader);
-				//reading share file
-				
-				FileReader reader2 = new FileReader(file1);
-				JSONParser parser1 = new JSONParser();
-				JSONArray share = (JSONArray) parser1.parse(reader2);
-				
-				System.out.println("Enter the user");
-				String name =scanner.next();
-				Iterator<?> iterator = stock.iterator();
-				Iterator<?> iterator2 = share.iterator();
-				boolean flag = false;
-				while (iterator.hasNext())
-				{
-					JSONObject jsonObject=(JSONObject) iterator.next();
-					if(jsonObject.get("Name").equals(name))
-					{
-						System.out.println("Enter the share sysmbol to sale share:[@,!,#]");
-						String symbol = scanner.next();
-						System.out.println("Enter the number of share to sale");
-						int count=scanner.nextInt();
-						
-						while(iterator2.hasNext())
-						{
-							JSONObject jsonObject2 = (JSONObject) iterator2.next();
-							if(jsonObject2.get("Symbol").equals(symbol))
-							{	
-								int bal =  Integer.parseInt(jsonObject.get("Balance").toString());
-								int price = Integer.parseInt(jsonObject2.get("Price").toString());
-								int noShare =  Integer.parseInt(jsonObject.get("ShareCount").toString());
-								int stockShare = Integer.parseInt(jsonObject2.get("Count").toString());
-								int saleprize = count*price;
-								int newbal = bal+saleprize;
-								int sharecountcus = noShare-count;
-								int sharecountstock = stockShare+count;
-								jsonObject.remove("Balance");
-								jsonObject.remove("ShareCount");
-								jsonObject2.remove("Count");
-								
-								jsonObject.put("Balance",newbal);
-								jsonObject.put("ShareCount",sharecountcus);
-								jsonObject2.put("Count", sharecountstock);
-								Date d = new Date();
-								String date = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a").format(d);
-								System.out.println("Date "+date);
-								flag = true;
-								break;
-							}
-							
-						}
-					}
-
-					FileWriter writer = new FileWriter(file);
-					writer.write(JSONValue.toJSONString(stock));
-					
-					writer.flush();
-					writer.close();
-				}
-				if(flag == false)
-				{
-					System.out.println("User name not exits");
-				}
-				FileWriter writer = new FileWriter(file1);
-				writer.write(JSONValue.toJSONString(share));
-				writer.flush();
-				writer.close();
-			}
-			 catch (FileNotFoundException e) {
-				
-				e.printStackTrace();
-			} catch (IOException | ParseException e) {
-				
-				e.printStackTrace();
-			} 
-			}
-			else
-			{
-				System.out.println("File Does not exits");
-			}
-		}
-		// Share and Stock report
-			/**
-			 * @param <E>
-			 * @throws IOException
-			 * @throws ParseException
-			 * display the details
-			 */
-			@SuppressWarnings("unchecked")
-			public static <E> void printReport()  
-			{
-				File file = new File("UserDetails.json");
-				 
-				try {
-					FileReader reader = new FileReader(file);
-				
-				JSONParser parser = new JSONParser();
-				JSONArray arr1 = (JSONArray) parser.parse(reader);
-				Iterator <E>itr = arr1.iterator();
-				while (itr.hasNext())
-				{
-					JSONObject obj = (JSONObject) itr.next();
-					System.out.println(obj);
-				}
-				
-			} catch (FileNotFoundException e) {
-			
-				e.printStackTrace();
-			} catch (IOException | ParseException e) {
-			
-				e.printStackTrace();
-			} 
-		}
-			
-			
 			/**
 			 *  Add person details in address book
 			 */
@@ -1779,94 +1503,328 @@ public class Utility
 				}	
 			}
 		
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			public static void companyShare()
+			@SuppressWarnings("unchecked")
+			public static void createUser() 
 			{
-				Stack stack = new Stack();
-				Queue queue = new Queue();
-				File file = new File("companyShare.json");
-				try {
-					FileReader	reader = new FileReader(file);
-					JSONParser parser = new JSONParser();
-					JSONArray array = (JSONArray) parser.parse(reader);
-					Iterator iterator = array.iterator();
-					System.out.println("Enter the share symbol");
-					String symbol = utility.inputString();
-					while(iterator.hasNext())
-					{
-						JSONObject jsonObject = (JSONObject) iterator.next();
-						//
-						if(jsonObject.containsKey(symbol))
-						{
-							System.out.println("Share symbol already their in list");
-							System.out.println("1.Add Share \n2.Remove share");
-							int choice = utility.inputInteger();
-														
-							switch(choice)
-							{
-							case 1 : 
-									System.out.println("Enter the number of share want to buy");
-									int num_share = utility.inputInteger();
-									JSONObject object = (JSONObject) jsonObject.get("Symbol");
-									System.out.println(object);
-									int key = Integer.parseInt(object.get("NumOfShare").toString());
-									int new_shares_count = key + num_share;
-									object.remove("NumOfShare");
-									object.put("NumOfShare", new_shares_count);
-									FileWriter writer = new FileWriter(file);
-									writer.write(JSONValue.toJSONString(array));
-									System.out.println("Buy successfully");
-									writer.flush();
-									writer.close();
-								
-							break;
-						case 2 : 	System.out.println("Enter the amount of share to sale");
-									int amt = utility.inputInteger();
-									JSONObject object1 = (JSONObject) jsonObject.get("Symbol");
-									int share_amt = Integer.parseInt(object1.get("ShareAmt").toString());
-									int num_share1 = Integer.parseInt(object1.get("NumOfShare").toString());
-									int new_shares_count1 = num_share1 - (amt/share_amt);
-									object1.remove("NumOfShare");
-									object1.put("NumOfShare", new_shares_count1);
-									FileWriter writer1 = new FileWriter(file);
-									writer1.write(JSONValue.toJSONString(array));
-									System.out.println("Removed successfully");
-									writer1.flush();
-									writer1.close();
-							break;
-						}
-						
-					}
-					else
-					{
-						JSONObject object = new JSONObject();
-						System.out.println("Enter number of share");
-						int number = utility.inputInteger();
-						System.out.println("Enter share amount");
-						int amount = utility.inputInteger();
-						object.put("NumOfShare",number );
-						object.put("ShareAmt",amount);
-						jsonObject.put(symbol,object);
-						System.out.println("Added succesfull");
-						stack.push(symbol);
-						stack.display();
-						queue.insert(symbol);
-						queue.display();
-						FileWriter writer = new FileWriter(file);
-						writer.write(JSONValue.toJSONString(array));
-						writer.flush();
-						writer.close();
-					}
-				}
-				}
-				catch (FileNotFoundException e)
-				{
-					e.printStackTrace();
-				} catch (IOException | ParseException e) 
-				{
-					
-					e.printStackTrace();
-				}
+
+				JSONObject stockUser = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				 try {
+					FileReader	reader = new FileReader("userDetails.json");
 				
+				String name;
+				int numberOfShare, amount;
+
+				System.out.println("Enter First Name");
+				name = scanner.next();
+
+				stockUser.put("user_Name", name);
+
+				System.out.println("Enter Number of Shares");
+				numberOfShare = scanner.nextInt();
+				stockUser.put("number_Share", numberOfShare);
+
+				System.out.println("Enter your balance");
+				amount = scanner.nextInt();
+				stockUser.put("amount", amount);
+				jsonArray.add(stockUser);
+				JSONParser jsonParser = new JSONParser();
+				JSONArray object1 = (JSONArray) jsonParser.parse(reader);
+
+				boolean found = true;
+				Iterator<?> itr1 = (object1).iterator();
+				while(itr1.hasNext()) 
+				{
+					JSONObject jsonDeatils = (JSONObject) itr1.next();
+					String userName = (String) jsonDeatils.get("user_Name");
+					if (userName.equalsIgnoreCase(name))
+					{
+						System.out.println("This "+name+" user is already created");
+						found = false;
+					}
+				}
+				if (found)
+				{
+					object1.add(stockUser);
+					/*((JSONArray) jsonArray).add(stockUser);*/
+					FileWriter fileWriter = new FileWriter("userDetails.json");
+					fileWriter.write(((JSONAware) object1).toJSONString());
+					fileWriter.flush();
+					fileWriter.close();
+
+				}
+				 } catch (FileNotFoundException e) 
+				 	{
+					
+						e.printStackTrace();
+					}
+				 catch(IOException | ParseException e)
+				 {
+					 e.printStackTrace();
+				 }
 			}
+			@SuppressWarnings("unchecked")
+			public static void saleShare() 
+			{
+
+				File file = new File("userDetails.json");
+
+				File file1 = new File("stockSymbols.json");
+
+				if (file.exists() && file1.exists())
+				{
+					// reading stock file
+					try {
+						FileReader fileReader = new FileReader(file);
+					JSONParser parser = new JSONParser();
+					JSONArray stock = (JSONArray) parser.parse(fileReader);
+
+					// reading share file
+
+					FileReader fileReader2 = new FileReader(file1);
+					JSONParser parser1 = new JSONParser();
+					JSONArray share = (JSONArray) parser1.parse(fileReader2);
+
+					System.out.println("********** @ Sell Shares @ *********");
+					System.out.println();
+
+					System.out.println("Enter user name");
+					String name =scanner.next();
+					Iterator<?> itr = ((List<Integer>) stock).iterator();
+					Iterator<?> itr1 = ((List<Integer>) share).iterator();
+					boolean flag = false;
+
+					while (itr.hasNext())
+					{
+						JSONObject jsonObject = (JSONObject) itr.next();
+						if (jsonObject.get("user_Name").equals(name))
+						{
+							System.out.println("Enter the share symbol to sell share:[@,!,#]");
+							String symbol =scanner.next();
+
+							while (itr1.hasNext())
+							{
+								JSONObject jsonObject2 = (JSONObject) itr1.next();
+								if (jsonObject2.get("stock_Symbol").equals(symbol))
+								{
+									System.out.println("Enter the amount to sell the shares");
+									int ammount = scanner.nextInt();
+
+									int balalnce = Integer.parseInt(jsonObject.get("amount").toString());
+									int price = Integer.parseInt(jsonObject2.get("amount").toString());
+									int numberShare = Integer.parseInt(jsonObject.get("number_Share").toString());
+									int stockShare = Integer.parseInt(jsonObject2.get("count").toString());
+
+									int numofshare = ammount / price;
+									int newbalalnce = balalnce - ammount;
+									int sharecountcus = numberShare - numofshare;
+									int sharecountstock = stockShare - numofshare;
+
+									jsonObject.remove("amount");
+									jsonObject.remove("number_Share");
+									jsonObject.remove("count");
+
+									jsonObject.put("amount", newbalalnce);
+									jsonObject.put("number_Share", sharecountcus);
+									jsonObject2.put("count", sharecountstock);
+
+									flag = true;
+									break;
+								}
+							}
+							System.out.println();
+							System.out.println("You sell share sucessfully...Thanks");
+						}
+						FileWriter fileWriter = new FileWriter(file);
+						fileWriter.write(JSONValue.toJSONString(stock));
+						fileWriter.flush();
+						fileWriter.close();
+					}
+
+					Queue queue = new Queue();
+					Stack stack1 = new Stack();
+					long time = System.currentTimeMillis();
+					java.util.Date date = new java.util.Date(time);
+					queue.insert(date);
+					queue.display();
+					System.out.println();
+
+					System.out.println("----------------------------------");
+					if (flag == false)
+					{
+						System.out.println("User name is not exits");
+					}
+					FileWriter fw = new FileWriter(file1);
+					fw.write(JSONValue.toJSONString(share));
+					fw.flush();
+					fw.close();
+				}
+				catch (FileNotFoundException e) 
+					{
+							e.printStackTrace();
+					}
+					catch (IOException | ParseException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				else 
+				{
+					System.out.println("File does not exits");
+				}
+			}
+
+
+			/**
+			 * This method is used to sell the shares.
+			 * @throws IOException
+			 * @throws ParseException
+			 */
+			@SuppressWarnings("unchecked")
+			public static void buyshare() 
+			{
+
+				File file = new File("userDetails.json");
+
+				File file1 = new File("stockSymbols.json");
+				if (file.exists() && file1.exists()) 
+				{
+					 
+					try {
+						FileReader fr = new FileReader(file);
+					
+					JSONParser parser = new JSONParser();
+					JSONArray stock = (JSONArray) parser.parse(fr);
+
+					FileReader sf = new FileReader(file1);
+					JSONParser parser1 = new JSONParser();
+					JSONArray share = (JSONArray) parser1.parse(sf);
+
+					System.out.println();
+					System.out.println("**** @ Buy Shares @ ****");
+					System.out.println();
+					System.out.println("Enter the user name");
+					String name =scanner.next();
+					Iterator<?> itr = ((List<Integer>) stock).iterator();
+					Iterator<?> itr1 = ((List<Integer>) share).iterator();
+					boolean flag = false;
+					while (itr.hasNext())
+					{
+						JSONObject obj = (JSONObject) itr.next();
+						if (obj.get("user_Name").equals(name)) 
+						{
+							System.out.println("Enter the share symbol to buy share:[@,#,!]");
+							String symbol = scanner.next();
+
+							while (itr1.hasNext())
+							{
+								JSONObject obj1 = (JSONObject) itr1.next();
+								if (obj1.get("stock_Symbol").equals(symbol))
+								{
+									System.out.println("Enter the amount");
+									int ammount =scanner.nextInt();
+
+									int bal = Integer.parseInt(obj.get("amount").toString());
+									int price = Integer.parseInt(obj1.get("amount").toString());
+									int noShare = Integer.parseInt(obj.get("number_Share").toString());
+									int stockShare = Integer.parseInt(obj1.get("count").toString());
+
+									int numofshare = ammount / price;
+									int newbal = bal + ammount;
+									int sharecountcus = noShare + numofshare;
+									int sharecountstock = stockShare + numofshare;
+
+									obj.remove("amount");
+									obj.remove("number_Share");
+									obj1.remove("count");
+									obj.put("amount", newbal);
+									obj.put("number_Share", sharecountcus);
+									obj1.put("count", sharecountstock);
+
+									flag = true;
+									break;
+								}
+							}
+
+							System.out.println();
+							System.out.println("Your shares buy successfully on...");
+
+							Queue queue = new Queue();
+							Stack stack1 = new Stack();
+							long time = System.currentTimeMillis();
+							java.util.Date date = new java.util.Date(time);
+							queue.insert(date);
+							queue.display();
+							stack1.push(symbol);
+							System.out.println();
+							System.out.println("Shares symbol is: ");
+							stack1.display();
+							System.out.println();
+							System.out.println("---------------------------------------");
+							System.out.println();
+						}
+						FileWriter fileWriter = new FileWriter(file);
+						fileWriter.write(JSONValue.toJSONString(stock));
+						fileWriter.flush();
+						fileWriter.close();
+					}
+					if (flag == false) {
+						System.out.println("User name not fond");
+					}
+					FileWriter fw = new FileWriter(file1);
+					fw.write(JSONValue.toJSONString(share));
+					fw.flush();
+					fw.close();		
+				} 
+				 catch (FileNotFoundException e) 
+					{
+					e.printStackTrace();
+					}
+					catch(IOException | ParseException e)
+					{
+						e.printStackTrace();
+					}
+				}else
+				{
+					System.out.println("File does not exits");
+				}
+			}
+
+			/** This method is used to display shares records.
+			 * @throws IOException
+			 * @throws ParseException
+			 */
+			public static void printReport() 
+			{
+				try
+				{
+					FileReader reader1 = new FileReader("userDetails.json");
+				JSONParser jsonParser1 = new JSONParser();
+				JSONArray jsonArrays_StackDtails = (JSONArray) jsonParser1.parse(reader1);
+
+				System.out.println("**** @ User Details @ ****");
+				for (Object o1 : jsonArrays_StackDtails) 
+				{
+					JSONObject jsonDetails2 = (JSONObject) o1;
+					String name = (String) jsonDetails2.get("user_Name");
+					System.out.println("User Name: " + name);
+
+					Object share = jsonDetails2.get("number_Share");
+					System.out.println("Number of share: " + share);
+
+					Object amount = jsonDetails2.get("amount");
+					System.out.println("Amount: " + amount);
+
+					System.out.println("-----------------------------------------");
+				}
+				} catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				catch(IOException | ParseException e)
+				{
+					e.printStackTrace();
+				}
+			}
+
 }

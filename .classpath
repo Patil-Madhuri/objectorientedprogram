@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/home/bridgeit/Downloads/json-simple-1.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DataStructure"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
