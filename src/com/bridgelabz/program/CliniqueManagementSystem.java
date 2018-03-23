@@ -15,7 +15,7 @@ public class CliniqueManagementSystem
 	public static void main(String[] args) 
 	{
 	Utility utility = new Utility();
-	int choice=0;
+	int lChoice=0;
 	do
 	{
 		System.out.println("Enter your choice");
@@ -28,9 +28,9 @@ public class CliniqueManagementSystem
 		System.out.println("7. Doctor List");
 		System.out.println("8. Patient List");
 		System.out.println("9. Exit");
-		 choice = utility.inputInteger();
+		lChoice = utility.inputInteger();
 		
-		switch (choice) 
+		switch (lChoice) 
 		{
 		case 1:
 			Utility.addDoctor();
@@ -41,21 +41,21 @@ public class CliniqueManagementSystem
 		case 3:
 			JSONObject patient=null;
 			System.out.println("Enter the patient id");
-			String patientId = utility.inputString();
+			String lPatientId = utility.inputString();
 			JSONObject jsonObjectpatient = Utility.readFromJsonFile("addPatient.json");
 			JSONArray jsonArraypatient = (JSONArray) jsonObjectpatient.get("patients");
-			boolean patientPresent = false;
+			boolean isPatientPresent = false;
 			for(int i = 0; i < jsonArraypatient.size();i++)
 			{
 				 patient = (JSONObject) jsonArraypatient.get(i);
 				String id = (String) patient.get("id");
-				if(id.equals(patientId))
+				if(id.equals(lPatientId))
 				{
-					patientPresent = true;
+					isPatientPresent = true;
 					break;
 				}
 			}
-			if(patientPresent)
+			if(isPatientPresent)
 			{
 				Utility.serachAndbookdoctor(patient);
 			}
@@ -86,6 +86,6 @@ public class CliniqueManagementSystem
 			System.out.println("Invalid choice");
 		}
 	}
-	while(choice > 0);	
+	while(lChoice > 0);	
 }
 }

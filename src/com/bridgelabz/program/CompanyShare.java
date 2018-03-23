@@ -27,8 +27,8 @@ public class CompanyShare
 			System.out.println("3. Display the shares");
 			
 			System.out.println("4. Exit");
-			int choice =utility.inputInteger();        
-			switch (choice)
+			int lChoice =utility.inputInteger();        
+			switch (lChoice)
 			{
 			case 1 : 
 				System.out.println("Enter element to insert");
@@ -36,10 +36,10 @@ public class CompanyShare
 				break;      
 
 			case 2 : 
-				System.out.println("Enter position");
+				System.out.println("Enter position to remove");
 				int position = utility.inputInteger();  
 				list.remove(position);
-				System.out.println("remove successfuly");
+				System.out.println("removed successfuly");
 				break;
 				
 			case 3:

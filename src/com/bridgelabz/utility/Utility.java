@@ -22,8 +22,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,6 +31,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import com.bridgelabz.datastructure.LinkedList1;
 import com.bridgelabz.program.CardQueue;
 import com.bridgelabz.program.Queue;
 import com.bridgelabz.program.Stack;
@@ -110,18 +110,20 @@ public class Utility
 		/**
 		 * input long
 		 */
+		
 		public long inputLong()
 		{
 			try
 			{
-				scanner.nextLong();
+				return scanner.nextLong();
 			}
 			catch(Exception e)
 			{
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			return 0;
 		}
+		
 		
 		/**
 		 * write data in json file
@@ -135,42 +137,42 @@ public class Utility
 				JSONObject object1 = new JSONObject();
 				JSONObject object2 = new JSONObject();
 				JSONObject object3 = new JSONObject();
-				String name;
-				double weight,price;
+				String lName;
+				double lWeight,lPrice;
 				//input for rice
 				System.out.println("Enter the name of rice: ");
-				name = scanner.next();
+				lName = scanner.next();
 				System.out.println("Enter the weight of rice: ");
-				weight = scanner.nextDouble();
+				lWeight = scanner.nextDouble();
 				System.out.println("Enter the price of rice: ");
-				price = scanner.nextDouble();
-				object1.put("name", name);
-				object1.put("weight", weight);
-				object1.put("price", price);
+				lPrice = scanner.nextDouble();
+				object1.put("name", lName);
+				object1.put("weight", lWeight);
+				object1.put("price", lPrice);
 				//System.out.println(object1);
 				
 				//input for pulses
 				System.out.println("Enter the name of pulse: ");
-				name = scanner.next();
+				lName = scanner.next();
 				System.out.println("Enter the weight of pulse: ");
-				weight =scanner.nextDouble();
+				lWeight =scanner.nextDouble();
 				System.out.println("Enter the price of pulse: ");
-				price =scanner.nextDouble();
-				object2.put("name", name);
-				object2.put("weight", weight);
-				object2.put("price", price);
+				lPrice =scanner.nextDouble();
+				object2.put("name", lName);
+				object2.put("weight", lWeight);
+				object2.put("price", lPrice);
 				//System.out.println(object2);
 				
 				//input for wheats
 				System.out.println("Enter the name of wheats: ");
-				name = scanner.next();
+				lName = scanner.next();
 				System.out.println("Enter the weight of wheats: ");
-				weight = scanner.nextDouble();
+				lWeight = scanner.nextDouble();
 				System.out.println("Enter the price of wheats: ");
-				price =scanner.nextDouble();
-				object3.put("name", name);
-				object3.put("weight", weight);
-				object3.put("price", price);
+				lPrice =scanner.nextDouble();
+				object3.put("name", lName);
+				object3.put("weight", lWeight);
+				object3.put("price", lPrice);
 				//System.out.println(object3);
 				JSONObject items = new JSONObject();
 				items.put("rice", object1);
@@ -217,10 +219,10 @@ public class Utility
 		static String message="Hello <<Name>>, We have your full name as <<Full Name>> in our system. "
 				+ "your contact number is 91-xxxxxxxxxx. Please,let us know in case of any clarification "
 				+ "Thank you BridgeLabz 01/01/2016.";
-		static String fName;
-		static String lName;
+		static String mFName;
+		static String mLName;
 		static String mNumber="0";
-		static String date;
+		static String mDate;
 
 		/**
 		 *  set the <<name>> instead of username in the message string
@@ -228,13 +230,13 @@ public class Utility
 		public static void setFirstName() 
 		{
 			System.out.println("Enter The First Name :");
-			fName=scanner.next();
+			mFName=scanner.next();
 
-			while(!iscontainNumber(fName))
+			while(!iscontainNumber(mFName))
 			{
 				System.out.println("Invalid First Name");
 				System.out.println("Please enter name again");
-				fName=scanner.next();
+				mFName=scanner.next();
 			}
 
 		}
@@ -245,13 +247,13 @@ public class Utility
 		public static void setLastName()
 		{
 			System.out.println("Enter The Last Name :");
-			lName=scanner.next();
+			mLName=scanner.next();
 			
-			while(!iscontainNumber(lName))
+			while(!iscontainNumber(mLName))
 			{
 				System.out.println("Invalid Last Name");
 				System.out.println("Please enter name again");
-				lName=scanner.next();
+				mLName=scanner.next();
 			}
 		}
 
@@ -323,12 +325,12 @@ public class Utility
 			//Regex to replace first Name 
 			Pattern pattern = Pattern.compile(firstName);
 			Matcher matcher = pattern.matcher(message);
-			message=matcher.replaceAll(fName); 
+			message=matcher.replaceAll(mFName); 
 			System.out.println();
 			//Regex to replace full Name
 			pattern = Pattern.compile(fullName);
 			matcher = pattern.matcher(message);
-			message=matcher.replaceAll(fName+" "+lName);
+			message=matcher.replaceAll(mFName+" "+mLName);
 
 			//Regex to replace mobile number
 			pattern = Pattern.compile(mobileno);
@@ -353,26 +355,26 @@ public class Utility
 			JSONArray jsonArray = new JSONArray();
 			
 			System.out.println("Enter Number of company");
-			int number = utility.inputInteger();
-			String[] array = new String[number];
-			int share[] = new int[number];
-			int amount[] = new int[number];System.out.println();
-			int total[] = new int[number];
+			int lNumber = utility.inputInteger();
+			String[] array = new String[lNumber];
+			int share[] = new int[lNumber];
+			int amount[] = new int[lNumber];System.out.println();
+			int total[] = new int[lNumber];
 			System.out.println("Enter company name");
 			int totalStock=0;
-			for(int i=0; i<number; i++)
+			for(int i=0; i<lNumber; i++)
 			{
 
 				array[i] = utility.inputString();
 			}
 
-			for(int i=0; i<number; i++)
+			for(int i=0; i<lNumber; i++)
 			{
 				System.out.println("Enter the number of shares for "+array[i]+" and share amount");
 				share[i] = utility.inputInteger();
 				amount[i] =utility.inputInteger();
 			}
-			for(int i=0; i<number; i++)
+			for(int i=0; i<lNumber; i++)
 			{
 				total[i] = share[i]*amount[i];
 			}
@@ -383,7 +385,7 @@ public class Utility
 			try 
 			{
 				PrintWriter	printWriter = new PrintWriter("StockReport.json");
-				for(int i=0; i<number; i++)
+				for(int i=0; i<lNumber; i++)
 				{
 					System.out.println("\t"+array[i]+"\t"+share[i]+"\t"+amount[i]+"\t"+total[i]+"/-");	
 					JSONObject jsonObject = new JSONObject();
@@ -398,7 +400,7 @@ public class Utility
 			printWriter.flush();
 			printWriter.close();
 			System.out.println();
-			for(int i=0; i<number; i++)
+			for(int i=0; i<lNumber; i++)
 			{
 
 				totalStock+= share[i]*amount[i];
@@ -417,8 +419,8 @@ public class Utility
 		 */
 		public static void deckOfCards(String suits[],String rank[])
 		{
-			int lengthOfCards = suits.length * rank.length;
-			String deck[] = new String[lengthOfCards];
+			int lLengthOfCards = suits.length * rank.length;
+			String deck[] = new String[lLengthOfCards];
 			int i,j;
 			for(i=0;i<rank.length;i++)
 			{
@@ -429,9 +431,9 @@ public class Utility
 				}
 			}
 			
-			for(i=0;i<lengthOfCards;i++)
+			for(i=0;i<lLengthOfCards;i++)
 			{
-				int r = i + (int) (Math.random() * (lengthOfCards - i));
+				int r = i + (int) (Math.random() * (lLengthOfCards - i));
 				String temp = deck[r];
 				deck[r] = deck[i];
 				deck[i]=temp;
@@ -458,8 +460,8 @@ public class Utility
 		public static void deckOfCardsQueue(String suits[], String rank[])
 		{
 			CardQueue cardqueue = new CardQueue();
-			int lengthOfCards = suits.length * rank.length;
-			String deck[] = new String[lengthOfCards];
+			int lLengthOfCards = suits.length * rank.length;
+			String deck[] = new String[lLengthOfCards];
 			int i,j;
 			for(i=0;i<rank.length;i++)
 			{
@@ -470,9 +472,9 @@ public class Utility
 				}
 			}
 			
-			for(i=0;i<lengthOfCards;i++)
+			for(i=0;i<lLengthOfCards;i++)
 			{
-				int r = i + (int) (Math.random() * (lengthOfCards - i));
+				int r = i + (int) (Math.random() * (lLengthOfCards - i));
 				String temp = deck[r];
 				deck[r] = deck[i];
 				deck[i]=temp;
@@ -512,22 +514,22 @@ public class Utility
 			@SuppressWarnings("unchecked")
 			public static void addPerson()
 			{
-				String firstname,lastname,address,city,state;
-				long contact,zipcode;
+				String lFirstName,lLastName,lAddress,lCity,lState;
+				long lContact,lZipcode;
 				System.out.println("Enter Firstname: ");
-				firstname = scanner.next();
+				lFirstName = scanner.next();
 				System.out.println("Enter Lastname: ");
-				lastname = scanner.next();
+				lLastName = scanner.next();
 				System.out.println("Enter Contact Number: ");
-				contact = scanner.nextLong();
+				lContact = scanner.nextLong();
 				System.out.println("Enter Address: ");
-				address = scanner.next();
+				lAddress = scanner.next();
 				System.out.println("Enter City: ");
-				city = scanner.next();
+				lCity = scanner.next();
 				System.out.println("Enter State: ");
-				state =scanner.next();
+				lState =scanner.next();
 				System.out.println("Enter Zip Code: ");
-				zipcode = scanner.nextLong();
+				lZipcode = scanner.nextLong();
 				
 				try {
 					File file = new File("address.json");
@@ -537,13 +539,13 @@ public class Utility
 					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
 					
 					JSONObject person = new JSONObject();
-					person.put("firstName", firstname);
-					person.put("lastName", lastname);
-					person.put("city", city);
-					person.put("state", state);
-					person.put("zip", zipcode);
-					person.put("phoneNumber", contact);
-					person.put("address", address);
+					person.put("firstName", lFirstName);
+					person.put("lastName", lLastName);
+					person.put("city", lCity);
+					person.put("state", lState);
+					person.put("zip", lZipcode);
+					person.put("phoneNumber", lContact);
+					person.put("address", lAddress);
 					//System.out.println(person);
 					jsonArray.add(person);
 					
@@ -572,11 +574,11 @@ public class Utility
 			@SuppressWarnings("unchecked")
 			public static void editDetails()
 			{
-				int index = 0;
+				int lIndex = 0;
 				JSONObject person=new JSONObject();
-				boolean present = false;
+				boolean isPresent = false;
 				System.out.println("enter the name of the person");
-				String firstName = utility.inputString();
+				String lFirstName = utility.inputString();
 				try 
 				{
 					File file = new File("address.json");
@@ -588,16 +590,16 @@ public class Utility
 					{
 						 person = (JSONObject) jsonArray.get(i);
 						String personFirstName = (String) person.get("firstName");
-						if(personFirstName.equals(firstName))
+						if(personFirstName.equals(lFirstName))
 						{
-							index = i;
-							present = true;
+							lIndex = i;
+							isPresent = true;
 							break;
 						}
 					}
-					if(present)
+					if(isPresent)
 					{						
-						int choice=0;
+						int lChoice=0;
 						do
 						{
 							System.out.println("Enter 1 to edit lastName");
@@ -607,46 +609,46 @@ public class Utility
 							System.out.println("Enter 5 to edit phoneNumber");
 							System.out.println("Enter 6 to edit address");
 							System.out.println("Enter 7 to stop editing");
-							 choice = utility.inputInteger();
+							lChoice = utility.inputInteger();
 							
-							switch (choice) 
+							switch (lChoice) 
 							{
 							case 1:
 								System.out.println("enter the last name");
-								String lastName = utility.inputString();
-								person.put("lastName", lastName);
+								String lLastName = utility.inputString();
+								person.put("lastName", lLastName);
 								break;
 							case 2:
 								System.out.println("enter the city");
-								String city = utility.inputString();
-								person.put("city", city);
+								String lCity = utility.inputString();
+								person.put("city", lCity);
 								break;
 							case 3 :
 								System.out.println("enter the state");
-								String state = utility.inputString();
-								person.put("state", state);
+								String lState = utility.inputString();
+								person.put("state", lState);
 								break;
 							case 4:
 								System.out.println("enter zip");
-								String zip = utility.inputString();
-								person.put("zip", zip);
+								String lZipCode = utility.inputString();
+								person.put("zip", lZipCode);
 								break;
 							case 5 :
 								System.out.println("enter phoneNumber");
-								String phoneNumber = utility.inputString();
-								person.put("phoneNumber", phoneNumber);
+								String lPhoneNumber = utility.inputString();
+								person.put("phoneNumber", lPhoneNumber);
 								break;
 							case 6 : 
 								System.out.println("enter address");
-								String address = utility.inputStringLine();
-								person.put("address", address);
+								String lAddress = utility.inputStringLine();
+								person.put("address", lAddress);
 								break;
 							default:
 								break;
 							}
 						}
-						while(choice > 0);
-						jsonArray.set(index, person);
+						while(lChoice > 0);
+						jsonArray.set(lIndex, person);
 						jsonObject.put("address", jsonArray);
 						//write into file
 						PrintWriter printWriter = new PrintWriter("address.json");
@@ -677,10 +679,10 @@ public class Utility
 			{
 				System.out.println("enter the name of the person to be deleted");
 				Utility utility = new Utility();
-				String firstName = utility.inputString();
-				int index = 0;
+				String lFirstName = utility.inputString();
+				int lIndex = 0;
 				JSONObject person = new JSONObject();
-				boolean present = false;
+				boolean isPresent = false;
 				
 				
 					try {
@@ -694,16 +696,16 @@ public class Utility
 						{
 							 person = (JSONObject) jsonArray.get(i);
 							String personFirstName = (String) person.get("firstName");
-							if(personFirstName.equals(firstName))
+							if(personFirstName.equals(lFirstName))
 							{
-								index = i;
-								present = true;
+								lIndex = i;
+								isPresent = true;
 								break;
 							}
 						}
-						if(present)
+						if(isPresent)
 						{
-							jsonArray.remove(index);
+							jsonArray.remove(lIndex);
 							jsonObject.put("address", jsonArray);
 							//write into file
 							PrintWriter printWriter = new PrintWriter("address.json");
@@ -742,8 +744,8 @@ public class Utility
 					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
 					JSONObject person1 = new JSONObject();
 					JSONObject person2 = new JSONObject();
-					String firstName1;
-					String firstName2;
+					String lFirstName1;
+					String lFfirstName2;
 					
 					for(int i = 0; i < jsonArray.size()-1;i++)
 					{
@@ -751,9 +753,9 @@ public class Utility
 						{
 							person1 = (JSONObject) jsonArray.get(i);
 							person2 = (JSONObject) jsonArray.get(j);
-							firstName1 = (String) person1.get("firstName");
-							firstName2 = (String) person2.get("firstName");
-							if (firstName1.compareToIgnoreCase(firstName2) >0)
+							lFirstName1 = (String) person1.get("firstName");
+							lFfirstName2 = (String) person2.get("firstName");
+							if (lFirstName1.compareToIgnoreCase(lFfirstName2) >0)
 							{
 								jsonArray.set(i, person2);
 								jsonArray.set(j, person1);
@@ -796,21 +798,21 @@ public class Utility
 					JSONArray jsonArray = (JSONArray) jsonObject.get("address");
 					JSONObject person1 = new JSONObject();
 					JSONObject person2 = new JSONObject();
-					String zip1;
-					String zip2;
-					long intzip1;
-					long intzip2;
+					String lZipCode1;
+					String lZipCode2;
+					long intZipCode1;
+					long intZipCode2;
 					for(int i = 0; i < jsonArray.size()-1;i++)
 					{
 						for(int j = i+1; j< jsonArray.size();j++)
 						{
 							person1 = (JSONObject) jsonArray.get(i);
 							person2 = (JSONObject) jsonArray.get(j);
-							zip1 = (String) person1.get("zip");
-							zip2 = (String) person2.get("zip");
-							intzip1 = Long.parseLong(zip1);
-							intzip2 = Long.parseLong(zip2);
-							if(intzip1>intzip2)
+							lZipCode1 = (String) person1.get("zip");
+							lZipCode2 = (String) person2.get("zip");
+							intZipCode1 = Long.parseLong(lZipCode1);
+							intZipCode2 = Long.parseLong(lZipCode2);
+							if(intZipCode1 > intZipCode2)
 							{
 								jsonArray.set(i, person2);
 								jsonArray.set(j, person1);
@@ -909,35 +911,35 @@ public class Utility
 				Utility utility = new Utility();
 				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
 				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
-				boolean iterate = true;
-				String id = null;
-				boolean idpresent;				
-				while(iterate)
+				boolean lIterate = true;
+				String lDoctorId = null;
+				boolean isIdPresent;				
+				while(lIterate)
 				{
-					idpresent = false;
+					isIdPresent = false;
 					System.out.println("Enter the id of doctor");
-				    id = utility.inputString();
+					lDoctorId = utility.inputString();
 					for(int i = 0; i < jsonArrayDoctor.size();i++)
 					{
 						JSONObject doctorObject = (JSONObject) jsonArrayDoctor.get(i);
 						String doctorId = (String) doctorObject.get("id");
-						if(doctorId.equals(id))
+						if(doctorId.equals(lDoctorId))
 						{
-							idpresent = true;
+							isIdPresent = true;
 							System.out.println("This id is use by another doctor use different one");
 							break;
 						}
 					}
-					if(!idpresent)
+					if(!isIdPresent)
 					{
-						iterate = false;
+						lIterate = false;
 					}
 				}
 				System.out.println("Enter the name of doctor");
-				String doctorName = utility.inputString();
+				String lDoctorName = utility.inputString();
 				
 				System.out.println("Enter the specialization of doctor");
-				String doctorSpecialization = utility.inputString();
+				String lDoctorSpecialization = utility.inputString();
 				
 				System.out.println("Enter availability of doctor");
 				System.out.println("You can only enter one choice out of three");
@@ -949,10 +951,10 @@ public class Utility
 				JSONObject newDoctorObject = new JSONObject();
 				
 				JSONObject appointment = readFromJsonFile("appoinment.json");
-				appointment.put(id, new JSONObject());
-				newDoctorObject.put("id", id);
-				newDoctorObject.put("name", doctorName);
-				newDoctorObject.put("specialization", doctorSpecialization);
+				appointment.put(lDoctorId, new JSONObject());
+				newDoctorObject.put("id", lDoctorId);
+				newDoctorObject.put("name", lDoctorName);
+				newDoctorObject.put("specialization", lDoctorSpecialization);
 				newDoctorObject.put("availability", availability);
 				jsonArrayDoctor.add(newDoctorObject);
 				jsonObjectDoctor.put("doctor", jsonArrayDoctor);
@@ -971,20 +973,20 @@ public class Utility
 				Utility utility = new Utility();
 				JSONObject jsonObjectPatients = readFromJsonFile("addPatient.json");
 				JSONArray jsonArraypatients = (JSONArray) jsonObjectPatients.get("patients");
-				boolean itrate = true;
-				String id = null;
+				boolean iterate = true;
+				String lPatientId = null;
 				boolean idPresent = false;
 				
-				while(itrate)
+				while(iterate)
 				{
 					idPresent = false;
 					System.out.println("Enter the id of patients");
-				    id = utility.inputString();
+					lPatientId = utility.inputString();
 					for(int i = 0; i < jsonArraypatients.size();i++)
 					{
 						JSONObject patientsObject = (JSONObject) jsonArraypatients.get(i);
 						String patientsId = (String) patientsObject.get("id");
-						if(patientsId.equals(id))
+						if(patientsId.equals(lPatientId))
 						{
 							idPresent = true;
 							System.out.println("This id is use by another patients use diffrent one");
@@ -993,20 +995,20 @@ public class Utility
 					}
 					if(!idPresent)
 					{
-						itrate = false;
+						iterate = false;
 					}
 				}
 				System.out.println("Enter the name of patients");
-				String Name = utility.inputString();
+				String lName = utility.inputString();
 				System.out.println("Enter the mobil number of patients");
-				String mobilNumber = utility.inputString();
+				String lMobileNumber = utility.inputString();
 				System.out.println("Enter the age of patients");
-				String age = utility.inputString();
+				String lAge = utility.inputString();
 				JSONObject newpatientsObject = new JSONObject();
-				newpatientsObject.put("id", id);
-				newpatientsObject.put("name", Name);
-				newpatientsObject.put("mobilNumber", mobilNumber);
-				newpatientsObject.put("age", age);
+				newpatientsObject.put("id", lPatientId);
+				newpatientsObject.put("name", lName);
+				newpatientsObject.put("mobilNumber", lMobileNumber);
+				newpatientsObject.put("age", lAge);
 				jsonArraypatients.add(newpatientsObject);
 				jsonObjectPatients.put("patients", jsonArraypatients);
 				writeJsonObjectToFile("addPatient.json", jsonObjectPatients);
@@ -1017,26 +1019,26 @@ public class Utility
 			 * @param pateint
 			 * search the doctor in doctor list and if dotor is available then take an appoinment
 			 */
-			public static void serachAndbookdoctor(JSONObject pateint) 
+			public static void serachAndbookdoctor(JSONObject patient) 
 			{
 				Utility utility = new Utility();
 				System.out.println("1 search doctor by name");
 				System.out.println("2 search doctor by id");
 				System.out.println("3 search doctor by specialization");
-				int choise = utility.inputInteger();
-				switch (choise) 
+				int lChoice = utility.inputInteger();
+				switch (lChoice) 
 				{
 				case 1:
 					System.out.println("Enter the name of the doctor");	
-					serachDoctorByName(utility.inputString(),pateint);
+					serachDoctorByName(utility.inputString(),patient);
 					break;
 				case 2:
 					System.out.println("Enter the id of doctor");
-					serachDoctorById(utility.inputString(), pateint);
+					serachDoctorById(utility.inputString(), patient);
 					break;
 				case 3:
 					System.out.println("Enter the specilization of doctor");
-					serachDoctorBySpecialization(utility.inputString(), pateint);
+					serachDoctorBySpecialization(utility.inputString(), patient);
 					break;
 
 				default:
@@ -1049,12 +1051,12 @@ public class Utility
 			 * @param pateint
 			 * search doctor in doctor list by their specialization
 			 */
-			public static void serachDoctorBySpecialization(String doctorSpecialization,JSONObject pateint) 
+			public static void serachDoctorBySpecialization(String doctorSpecialization,JSONObject patient) 
 			{
 				ArrayList<JSONObject> doctorList = new ArrayList<>();
 				Utility utility = new Utility();
 				JSONObject doctor = null;
-				boolean doctorPresent = false;
+				boolean isDoctorPresent = false;
 				JSONObject jsonObjectDoctor = readFromJsonFile("doctor.json");
 				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
 				for(int i = 0; i < jsonArrayDoctor.size();i++)
@@ -1063,11 +1065,11 @@ public class Utility
 					String specialization = (String) doctor.get("specialization");
 					if(specialization.equals(doctorSpecialization))
 					{
-						doctorPresent = true;
+						isDoctorPresent = true;
 						doctorList.add(doctor);
 					}	
 				}
-				if(doctorPresent)
+				if(isDoctorPresent)
 				{
 					System.out.println("List of doctor for " + doctorSpecialization);
 					for(int i = 0; i< doctorList.size();i++)
@@ -1075,14 +1077,14 @@ public class Utility
 						System.out.println(doctorList.get(i));
 					}
 					System.out.println("Enter the id of one doctor from above list");
-					String doctorId = utility.inputString();
+					String lDoctorId = utility.inputString();
 					System.out.println("1 to see doctor is avalable on specific date or not");
 					System.out.println("or any thing else to go back");
-					int chosie = utility.inputInteger();
-					switch (chosie) 
+					int lChoice = utility.inputInteger();
+					switch (lChoice) 
 					{
 					case 1:
-						checkavalbilityOfdocterbyId(doctorId,pateint);
+						checkavalbilityOfdocterbyId(lDoctorId,patient);
 						break;
 					default:
 						break;
@@ -1100,12 +1102,12 @@ public class Utility
 			 * search doctor by their id in doctor list
 			 */
 			@SuppressWarnings("unused")
-			public static void serachDoctorById(String doctorId,JSONObject pateint) 
+			public static void serachDoctorById(String doctorId,JSONObject patient) 
 			{
 				Utility utility = new Utility();
 				JSONObject doctor = null;
-				int index = 0;
-				boolean doctorPresent = false;
+				int lIndex = 0;
+				boolean isDoctorPresent = false;
 				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
 				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
 				for(int i = 0; i < jsonArrayDoctor.size();i++)
@@ -1114,12 +1116,12 @@ public class Utility
 					String id = (String) doctor.get("id");
 					if(id.equals(doctorId))
 					{
-						doctorPresent = true;
-						index = i;
+						isDoctorPresent = true;
+						lIndex = i;
 						break;
 					}	
 				}
-				if(doctorPresent)
+				if(isDoctorPresent)
 				{
 					System.out.println(doctor);
 					System.out.println();
@@ -1129,7 +1131,7 @@ public class Utility
 					switch (choice) 
 					{
 					case 1:
-						checkavalbilityOfdocterbyId(doctorId,pateint);
+						checkavalbilityOfdocterbyId(doctorId,patient);
 						break;
 					default:
 						System.out.println("Invalid choice");
@@ -1145,26 +1147,26 @@ public class Utility
 			 * @param pateint
 			 * serach doctor by name in doctor list of clinique management system
 			 */
-			public static void serachDoctorByName(String doctorName,JSONObject pateint) 
+			public static void serachDoctorByName(String doctorName,JSONObject patient) 
 			{
 				Utility utility = new Utility();
 				JSONObject doctor = null;
 				
-				boolean doctorPresent = false;
+				boolean isDoctorPresent = false;
 				JSONObject jsonObjectDoctor = readFromJsonFile("addDoctor.json");
 				JSONArray jsonArrayDoctor = (JSONArray) jsonObjectDoctor.get("doctor");
 				for(int i = 0; i < jsonArrayDoctor.size();i++)
 				{
 				    doctor = (JSONObject) jsonArrayDoctor.get(i);
-					String name = (String) doctor.get("name");
-					if(name.equals(doctorName))
+					String lDoctorname = (String) doctor.get("name");
+					if(lDoctorname.equals(doctorName))
 					{
-						doctorPresent = true;
+						isDoctorPresent = true;
 						
 						break;
 					}	
 				}
-				if(doctorPresent)
+				if(isDoctorPresent)
 				{
 					String doctorId = (String) doctor.get("id");
 					System.out.println(doctor);
@@ -1175,7 +1177,7 @@ public class Utility
 					switch (choice) 
 					{
 					case 1:
-						checkavalbilityOfdocterbyId(doctorId,pateint);
+						checkavalbilityOfdocterbyId(doctorId,patient);
 						break;
 
 					default:
@@ -1195,7 +1197,7 @@ public class Utility
 			@SuppressWarnings({ "unchecked", "unused" })
 			static void checkavalbilityOfdocterbyId(String id,JSONObject patient) 
 			{
-				boolean avaliable = false;
+				boolean isAvaliable = false;
 				Utility utility = new Utility();
 				System.out.println("enter the date in format of DDMMYYYY");
 				String date = utility.inputString();
@@ -1263,8 +1265,8 @@ public class Utility
 				System.out.println(" 1 to search patient by name");
 				System.out.println(" 2 to search patient by id");
 				System.out.println(" 3 to search patient by contact number");
-				int choise = utility.inputInteger();
-				switch (choise) {
+				int lChoice = utility.inputInteger();
+				switch (lChoice) {
 				case 1:
 					System.out.println("Enter the patient name");
 					String name = utility.inputString();
@@ -1350,11 +1352,11 @@ public class Utility
 				HashMap<String, Integer> doctorsPatientCount = new HashMap<>();
 				JSONObject jsonObjectappointment = readFromJsonFile("appoinment.json");
 				Set keyOfappointment = jsonObjectappointment.keySet();
-				Iterator iter = keyOfappointment.iterator();
-				while(iter.hasNext())
+				Iterator iterator = keyOfappointment.iterator();
+				while(iterator.hasNext())
 				{
 					int countOfPatient = 0;
-					String idOfDoctor = (String) iter.next();
+					String idOfDoctor = (String) iterator.next();
 					JSONObject jsonObjectOfId = (JSONObject) jsonObjectappointment.get(idOfDoctor);
 					if(jsonObjectOfId.isEmpty())
 					{
@@ -1363,10 +1365,10 @@ public class Utility
 					else
 					{
 						Set keyOfDate = jsonObjectOfId.keySet();
-						Iterator iter1 = keyOfDate.iterator();
-						while(iter1.hasNext())
+						Iterator iterator1 = keyOfDate.iterator();
+						while(iterator1.hasNext())
 						{
-							String date = (String) iter1.next();
+							String date = (String) iterator1.next();
 							JSONArray jsonArrayDate = (JSONArray) jsonObjectOfId.get(date);
 							countOfPatient +=jsonArrayDate.size();
 						}
@@ -1401,8 +1403,8 @@ public class Utility
 				for(int i = 0; i < jsonArrayDoctor.size();i++)
 				{
 				    doctor = (JSONObject) jsonArrayDoctor.get(i);
-					String id = (String) doctor.get("id");
-					if(id.equals(doctorId))
+					String lDoctorId = (String) doctor.get("id");
+					if(lDoctorId.equals(doctorId))
 					{
 						return doctor;
 					}	
@@ -1506,27 +1508,26 @@ public class Utility
 			@SuppressWarnings("unchecked")
 			public static void createUser() 
 			{
-
 				JSONObject stockUser = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				 try {
 					FileReader	reader = new FileReader("userDetails.json");
 				
-				String name;
-				int numberOfShare, amount;
+				String lName;
+				int lNumberOfShare, lAmount;
 
 				System.out.println("Enter First Name");
-				name = scanner.next();
+				lName = scanner.next();
 
-				stockUser.put("user_Name", name);
+				stockUser.put("user_Name", lName);
 
 				System.out.println("Enter Number of Shares");
-				numberOfShare = scanner.nextInt();
-				stockUser.put("number_Share", numberOfShare);
+				lNumberOfShare = scanner.nextInt();
+				stockUser.put("number_Share", lNumberOfShare);
 
 				System.out.println("Enter your balance");
-				amount = scanner.nextInt();
-				stockUser.put("amount", amount);
+				lAmount = scanner.nextInt();
+				stockUser.put("amount", lAmount);
 				jsonArray.add(stockUser);
 				JSONParser jsonParser = new JSONParser();
 				JSONArray object1 = (JSONArray) jsonParser.parse(reader);
@@ -1537,9 +1538,9 @@ public class Utility
 				{
 					JSONObject jsonDeatils = (JSONObject) itr1.next();
 					String userName = (String) jsonDeatils.get("user_Name");
-					if (userName.equalsIgnoreCase(name))
+					if (userName.equalsIgnoreCase(lName))
 					{
-						System.out.println("This "+name+" user is already created");
+						System.out.println("This "+lName+" user is already created");
 						found = false;
 					}
 				}
@@ -1563,7 +1564,7 @@ public class Utility
 					 e.printStackTrace();
 				 }
 			}
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "unused" })
 			public static void saleShare() 
 			{
 
@@ -1691,55 +1692,55 @@ public class Utility
 				{
 					 
 					try {
-						FileReader fr = new FileReader(file);
+						FileReader reader = new FileReader(file);
 					
 					JSONParser parser = new JSONParser();
-					JSONArray stock = (JSONArray) parser.parse(fr);
+					JSONArray stock = (JSONArray) parser.parse(reader);
 
-					FileReader sf = new FileReader(file1);
+					FileReader reader1 = new FileReader(file1);
 					JSONParser parser1 = new JSONParser();
-					JSONArray share = (JSONArray) parser1.parse(sf);
+					JSONArray share = (JSONArray) parser1.parse(reader1);
 
 					System.out.println();
 					System.out.println("**** @ Buy Shares @ ****");
 					System.out.println();
 					System.out.println("Enter the user name");
-					String name =scanner.next();
-					Iterator<?> itr = ((List<Integer>) stock).iterator();
-					Iterator<?> itr1 = ((List<Integer>) share).iterator();
+					String lName =scanner.next();
+					Iterator<?> iterator = ((List<Integer>) stock).iterator();
+					Iterator<?> iterator2 = ((List<Integer>) share).iterator();
 					boolean flag = false;
-					while (itr.hasNext())
+					while (iterator.hasNext())
 					{
-						JSONObject obj = (JSONObject) itr.next();
-						if (obj.get("user_Name").equals(name)) 
+						JSONObject obj = (JSONObject) iterator.next();
+						if (obj.get("user_Name").equals(lName)) 
 						{
 							System.out.println("Enter the share symbol to buy share:[@,#,!]");
-							String symbol = scanner.next();
+							String lSymbol = scanner.next();
 
-							while (itr1.hasNext())
+							while (iterator2.hasNext())
 							{
-								JSONObject obj1 = (JSONObject) itr1.next();
-								if (obj1.get("stock_Symbol").equals(symbol))
+								JSONObject obj1 = (JSONObject) iterator2.next();
+								if (obj1.get("stock_Symbol").equals(lSymbol))
 								{
 									System.out.println("Enter the amount");
-									int ammount =scanner.nextInt();
+									int lAmount =scanner.nextInt();
 
-									int bal = Integer.parseInt(obj.get("amount").toString());
-									int price = Integer.parseInt(obj1.get("amount").toString());
-									int noShare = Integer.parseInt(obj.get("number_Share").toString());
-									int stockShare = Integer.parseInt(obj1.get("count").toString());
+									int lBalance = Integer.parseInt(obj.get("amount").toString());
+									int lPrice = Integer.parseInt(obj1.get("amount").toString());
+									int lNoShare = Integer.parseInt(obj.get("number_Share").toString());
+									int lStockShare = Integer.parseInt(obj1.get("count").toString());
 
-									int numofshare = ammount / price;
-									int newbal = bal + ammount;
-									int sharecountcus = noShare + numofshare;
-									int sharecountstock = stockShare + numofshare;
+									int lNumofshare = lAmount / lPrice;
+									int lNewbal = lBalance + lAmount;
+									int lShareCount = lNoShare + lNumofshare;
+									int lShareCountStock = lStockShare + lNumofshare;
 
 									obj.remove("amount");
 									obj.remove("number_Share");
 									obj1.remove("count");
-									obj.put("amount", newbal);
-									obj.put("number_Share", sharecountcus);
-									obj1.put("count", sharecountstock);
+									obj.put("amount", lNewbal);
+									obj.put("number_Share", lShareCount);
+									obj1.put("count", lShareCountStock);
 
 									flag = true;
 									break;
@@ -1755,7 +1756,7 @@ public class Utility
 							java.util.Date date = new java.util.Date(time);
 							queue.insert(date);
 							queue.display();
-							stack1.push(symbol);
+							stack1.push(lSymbol);
 							System.out.println();
 							System.out.println("Shares symbol is: ");
 							stack1.display();
@@ -1825,6 +1826,72 @@ public class Utility
 				{
 					e.printStackTrace();
 				}
+			}
+
+			/**
+			 * This method is to add Shares
+			 */
+			public static void addShare() 
+			{
+				Map list = (Map) new LinkedList1<String>();
+
+				try {
+					File file = new File("companyShare.json");
+					if (file.exists())
+						if (file.canRead() && file.canWrite()) {
+							FileReader fileReader = new FileReader(file);
+							JSONParser parser = new JSONParser();
+							JSONArray array = (JSONArray) parser.parse(fileReader);
+							Iterator iterator = ((List) array).iterator();
+
+							while (iterator.hasNext()) {
+								JSONObject json = (JSONObject) iterator.next();
+								System.out.println("Enter your share you want to add:");
+								String share = scanner.next();
+								((ArrayList) list).add(share);
+								json.putAll(list);
+								array.add(json);
+							}
+							FileWriter fileWriter = new FileWriter(file);
+							fileWriter.write(JSONArray.toJSONString(array));
+							fileWriter.flush();
+							fileWriter.close();
+						}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
+			public static void removeShare() {
+				Map list = (Map) new LinkedList1<String>();
+
+				try {
+					File file = new File("companyShare.json");
+					if (file.exists())
+						if (file.canRead() && file.canWrite()) {
+							FileReader fileReader = new FileReader(file);
+							JSONParser parser = new JSONParser();
+							JSONArray array = (JSONArray) parser.parse(fileReader);
+							Iterator iterator = ((List) array).iterator();
+
+							while (iterator.hasNext()) {
+								JSONObject json = (JSONObject) iterator.next();
+								System.out.println("Enter index of share you want to Remove:");
+								int position =scanner.nextInt();
+								((ArrayList) list).remove(position);
+								json.putAll(list);
+								array.add(json);
+							}
+							FileWriter fileWriter = new FileWriter(file);
+							fileWriter.write(JSONArray.toJSONString(array));
+							fileWriter.flush();
+							fileWriter.close();
+						}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 
 }

@@ -16,14 +16,14 @@ public class AddressBook
 	public static void main(String[] args) 
 	{
 		Utility utility = new Utility();
-		int choice=0;
+		int lChoice=0;
 		do
 		{
 			System.out.println("1.Add details \n2.Edit details \n3.Delete details \n4.Sort By Name "
 					+ "\n5.Sort By Zipcode \n6.Display Address book \n7.Exit");
 			System.out.println("Enter your choice: ");
-			choice = utility.inputInteger();
-			switch(choice)
+			lChoice = utility.inputInteger();
+			switch(lChoice)
 			{
 			case 1:
 				Utility.addPerson();
@@ -51,6 +51,6 @@ public class AddressBook
 					
 			}
 			
-		}while(choice > 0);
+		}while(lChoice > 0);
 	}
 }
