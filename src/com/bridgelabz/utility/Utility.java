@@ -1831,6 +1831,7 @@ public class Utility
 			/**
 			 * This method is to add Shares
 			 */
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public static void addShare() 
 			{
 				Map list = (Map) new LinkedList1<String>();
@@ -1863,6 +1864,7 @@ public class Utility
 
 			}
 
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public static void removeShare() {
 				Map list = (Map) new LinkedList1<String>();
 
