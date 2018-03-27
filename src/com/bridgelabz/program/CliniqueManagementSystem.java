@@ -12,6 +12,10 @@ import com.bridgelabz.utility.Utility;
 
 public class CliniqueManagementSystem 
 {
+	static
+	{
+		System.out.println("**********@ Clinique Management System @*********");
+	}
 	public static void main(String[] args) 
 	{
 	Utility utility = new Utility();

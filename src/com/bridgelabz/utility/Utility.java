@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
@@ -33,7 +34,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.bridgelabz.datastructure.LinkedList1;
-import com.bridgelabz.program.CardQueue;
+
 import com.bridgelabz.program.Queue;
 import com.bridgelabz.program.Stack;
 public class Utility 
@@ -289,8 +290,9 @@ public class Utility
 		//is ten digits validation for the mobile number
 		public static boolean isTenDigit(String number)
 		{
-			String matcher="^[0-9]+$";
-			if((number.matches(matcher))){
+			String matcher="\\d{10}";
+			if((number.matches(matcher)))
+			{
 				return true;
 				
 			}
@@ -413,100 +415,212 @@ public class Utility
 		}
 		}
 		
-		/** deck of cards
-		 * @param suits
-		 * @param rank
-		 */
-		public static void deckOfCards(String suits[],String rank[])
+		public static void printCardsOfPlayers(ArrayList<String[]> arrayList)
 		{
-			int lLengthOfCards = suits.length * rank.length;
-			String deck[] = new String[lLengthOfCards];
-			int i,j;
-			for(i=0;i<rank.length;i++)
+			String[] array = arrayList.get(0);
+			System.out.println("*****Player 1*****");
+			for(int i = 0; i < 9; i++)
 			{
-				for(j=0;j<suits.length;j++)
-				{
-					deck[suits.length * i + j]=rank[i]+" of " +suits[j];
-					
-				}
+				System.out.println(array[i]);
 			}
-			
-			for(i=0;i<lLengthOfCards;i++)
+			System.out.println();
+			System.out.println("*****Player 2*****");
+			array = arrayList.get(1);
+			for(int i = 0; i < 9; i++)
 			{
-				int r = i + (int) (Math.random() * (lLengthOfCards - i));
-				String temp = deck[r];
-				deck[r] = deck[i];
-				deck[i]=temp;
+				 System.out.println(array[i]);
 			}
-			
-			String array[][] = new String[suits.length][9];
-			for(i=0;i<suits.length;i++)
+			System.out.println();
+			System.out.println("*****Player 3*****");
+			array = arrayList.get(2);
+			for(int i = 0; i < 9; i++)
 			{
-				System.out.println("**********Player"+(i+1)+"**********");
-				for(j=0;j<9;j++)
-				{
-					array[i][j] = deck[i+j];
-					System.out.println(array[i][j]);
-				}
-				System.out.println();
+				System.out.println(array[i]);
+			}
+			System.out.println();
+			System.out.println("*****Player 4*****");
+			array = arrayList.get(3);
+			for(int i = 0; i < 9; i++)
+			{
+				System.out.println(array[i]);
 			}
 		}
 		
 		/**
-		 * deck of cards using queue
-		 * @param suits
-		 * @param rank
+		 * @return arraylist haveing four string[] array each storing players of cards
 		 */
-		public static void deckOfCardsQueue(String suits[], String rank[])
+		public static ArrayList<String[]> deckOfCards()
 		{
-			CardQueue cardqueue = new CardQueue();
-			int lLengthOfCards = suits.length * rank.length;
-			String deck[] = new String[lLengthOfCards];
-			int i,j;
-			for(i=0;i<rank.length;i++)
-			{
-				for(j=0;j<suits.length;j++)
-				{
-					deck[suits.length * i + j]=rank[i]+" of " +suits[j];
-					
-				}
-			}
+			String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};
+			String[] rank = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
 			
-			for(i=0;i<lLengthOfCards;i++)
-			{
-				int r = i + (int) (Math.random() * (lLengthOfCards - i));
-				String temp = deck[r];
-				deck[r] = deck[i];
-				deck[i]=temp;
-			}
+			String[] player1 = new String[13];
+			String[] player2 = new String[13];
+			String[] player3 = new String[13];
+			String[] player4 = new String[13];
 			
-			String array[][] = new String[suits.length][9];
-			for(i=0;i<suits.length;i++)
+			String[][] doubleCheck = new String[4][13];
+			Random random = new Random();
+			int min = 0;
+			int row = 0;
+			int colum = 0;
+			int indexOfPlayer = 0;
+			boolean player1Chance = true;
+			boolean player2Chance = false;
+			boolean player3Chance = false;
+			boolean player4Chance = false;
+			
+			while(indexOfPlayer < 13)
 			{
-				System.out.println("**********Player"+(i+1)+"**********");
-				for(j=0;j<9;j++)
+				while(player1Chance)
 				{
-					array[i][j] = deck[i+j];
-					cardqueue.push(array[i][j]);
-				
+					row = min + random.nextInt(4);
+					colum = min + random.nextInt(13);
+					if(doubleCheck[row][colum]== null)
+					{
+						player1[indexOfPlayer]=rank[colum] + " of " + suits[row];
+						doubleCheck[row][colum] = "present";
+						player2Chance = true;
+						player1Chance = false;
+					}
 				}
-				System.out.println();
+				while(player2Chance)
+				{
+					row = min + random.nextInt(4);
+					colum = min + random.nextInt(13);
+					if(doubleCheck[row][colum] == null)
+					{
+						player2[indexOfPlayer] = rank[colum] + " of " + suits[row];
+						doubleCheck[row][colum] = "present";
+						player3Chance = true;
+						player2Chance = false;
+					}
+				}
+				while(player3Chance)
+				{
+					row = min + random.nextInt(4);
+					colum = min + random.nextInt(13);
+					if(doubleCheck[row][colum] == null)
+					{
+						player3[indexOfPlayer] = rank[colum] + " of " + suits[row];
+						doubleCheck[row][colum] = "present";
+						player4Chance = true;
+						player3Chance = false;
+					}
+				}
+				while(player4Chance)
+				{
+					row = min + random.nextInt(4);
+					colum = min + random.nextInt(13);
+					if(doubleCheck[row][colum] == null)
+					{
+						player4[indexOfPlayer++] = rank[colum] + " of " + suits[row];
+						doubleCheck[row][colum] = "present";
+						player1Chance = true;
+						player4Chance = false;
+					}
+				}	
 			}
-			System.out.println("*****After sort*****");
-			   for (String sorted[] : array) 
-			   {
-			       Arrays.sort(sorted);
-			  
-			       for (String integer : sorted) 
-			       {
-			           System.out.println(integer);
-			       }
-			       System.out.println();
-			   }
-
-
-		}
+			ArrayList<String[]> arrayList = new ArrayList<>();
+			arrayList.add(player1);
+			arrayList.add(player2);
+			arrayList.add(player3);
+			arrayList.add(player4);
+			return arrayList;
+		 }
 		
+		/**
+		 * @return return the array having cards of four player in sequence
+		 */
+		public static ArrayList<String[]> cardsInSequence()
+		{
+			ArrayList<String[]> arrayList = deckOfCards();
+			ArrayList<String[]> swapList = new ArrayList<>();
+			int[][] cardsIndex = new int[4][13];
+			for(int i = 0; i < 4; i++)
+			{
+				String[] array = arrayList.get(i);
+				for(int j = 0; j < 13; j++)
+				{
+					String cards = array[j];
+					String cardRank = cards.substring(0, cards.indexOf(" "));
+					if(cardRank.equals("2"))
+					{
+						cardsIndex[i][j] = 2; 
+					}
+					else if(cardRank.equals("3"))
+					{
+						cardsIndex[i][j] = 3;
+					}
+					else if(cardRank.equals("4"))
+					{
+						cardsIndex[i][j] = 4;
+					}
+					else if(cardRank.equals("5"))
+					{
+						cardsIndex[i][j] = 5;
+					}
+					else if(cardRank.equals("6"))
+					{
+						cardsIndex[i][j] = 6;
+					}
+					else if(cardRank.equals("7"))
+					{
+						cardsIndex[i][j] = 7;
+					}
+					else if(cardRank.equals("8"))
+					{
+						cardsIndex[i][j] = 8;
+					}
+					else if(cardRank.equals("9"))
+					{
+						cardsIndex[i][j] = 9;
+					}
+					else if(cardRank.equals("10"))
+					{
+						cardsIndex[i][j] = 10;
+					}
+					else if(cardRank.equals("Jack"))
+					{
+						cardsIndex[i][j] = 11;
+					}
+					else if(cardRank.equals("Queen"))
+					{
+						cardsIndex[i][j] = 12;
+					}
+					else if(cardRank.equals("King"))
+					{
+						cardsIndex[i][j] = 13;
+					}
+					else
+					{
+						cardsIndex[i][j] = 1;
+					}
+				}
+			}
+			for(int k = 0; k< 4; k++)
+			{
+				String[] cardsOfPlayer = arrayList.get(k);
+				for(int i = 0;i<12;i++)
+				{
+					for(int j = i +1; j < 13; j++)
+					{
+						if(cardsIndex[k][i]>cardsIndex[k][j])
+						{
+							int temp = cardsIndex[k][i];
+							cardsIndex[k][i] = cardsIndex[k][j];
+							cardsIndex[k][j] = temp;
+							
+							String temp1 = cardsOfPlayer[i];
+							cardsOfPlayer[i] = cardsOfPlayer[j];
+							cardsOfPlayer[j] = temp1;
+						}
+					}
+				}
+				swapList.add(cardsOfPlayer);
+			}
+		return swapList;	
+		}
 
 			/**
 			 *  Add person details in address book
@@ -515,13 +629,20 @@ public class Utility
 			public static void addPerson()
 			{
 				String lFirstName,lLastName,lAddress,lCity,lState;
-				long lContact,lZipcode;
+				String lContact;
+				long lZipcode;
 				System.out.println("Enter Firstname: ");
 				lFirstName = scanner.next();
 				System.out.println("Enter Lastname: ");
 				lLastName = scanner.next();
 				System.out.println("Enter Contact Number: ");
-				lContact = scanner.nextLong();
+				lContact = scanner.next();
+				while (!isTenDigit(lContact)) 
+				{
+					System.out.println("Invalid mobile number");
+					System.out.println("Please enter number again");
+					lContact = scanner.next();
+				}
 				System.out.println("Enter Address: ");
 				lAddress = scanner.next();
 				System.out.println("Enter City: ");
@@ -602,13 +723,13 @@ public class Utility
 						int lChoice=0;
 						do
 						{
-							System.out.println("Enter 1 to edit lastName");
-							System.out.println("Enter 2 to edit city");
-							System.out.println("Enter 3 to edit state");
-							System.out.println("Enter 4 to edit zip");
-							System.out.println("Enter 5 to edit phoneNumber");
-							System.out.println("Enter 6 to edit address");
-							System.out.println("Enter 7 to stop editing");
+							System.out.println("1 Edit lastName");
+							System.out.println("2 Edit city");
+							System.out.println("3 Edit state");
+							System.out.println("4 Edit zip code");
+							System.out.println("5 Edit phoneNumber");
+							System.out.println("6 Edit address");
+							System.out.println("7 Stop editing");
 							lChoice = utility.inputInteger();
 							
 							switch (lChoice) 
@@ -636,6 +757,12 @@ public class Utility
 							case 5 :
 								System.out.println("enter phoneNumber");
 								String lPhoneNumber = utility.inputString();
+								while (!isTenDigit(lPhoneNumber)) 
+								{
+									System.out.println("Invalid mobile number");
+									System.out.println("Please enter number again");
+									lPhoneNumber = scanner.next();
+								}
 								person.put("phoneNumber", lPhoneNumber);
 								break;
 							case 6 : 
@@ -643,11 +770,13 @@ public class Utility
 								String lAddress = utility.inputStringLine();
 								person.put("address", lAddress);
 								break;
-							default:
+							case 7:
 								break;
+							default:
+								System.out.println("Invalid choice");
 							}
 						}
-						while(lChoice > 0);
+						while(lChoice < 7);
 						jsonArray.set(lIndex, person);
 						jsonObject.put("address", jsonArray);
 						//write into file
@@ -671,6 +800,36 @@ public class Utility
 				}
 		}
 		
+			public static void address(int lChoice)
+			{
+				switch(lChoice)
+				{
+				case 1:
+					Utility.addPerson();
+					break;
+				case 2:
+					Utility.editDetails();
+					break;
+				case 3:
+					Utility.deleteDetails();
+					break;
+				case 4:
+					Utility.sortByName();
+					break;
+				case 5:
+					Utility.sortByZip();
+					break;
+				case 6:
+					Utility.displayAddressBook();
+					break;
+				case 7:
+					System.out.println("*****Thanks*****");
+					System.exit(0);
+				default:
+					System.out.println("Invalid choice");
+						
+				}
+			}
 			/**
 			 * Delete the details of the person from address book 
 			 */
@@ -897,7 +1056,7 @@ public class Utility
 					printWriter.flush();
 					printWriter.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				
@@ -1425,7 +1584,7 @@ public class Utility
 					String idOfDoctor = (String) iterator.next();
 					System.out.println("doctor details");
 					System.out.println(getDocterDetailsById(idOfDoctor));
-					System.out.println("------------------------------");
+					System.out.println("-------------------------------------------------------------------------");
 					System.out.println("patient details");
 					JSONObject jsonObjectOfId = (JSONObject) jsonObjectappointment.get(idOfDoctor);
 					if(jsonObjectOfId.isEmpty())
@@ -1451,7 +1610,7 @@ public class Utility
 					}
 					System.out.println();
 					System.out.println();
-					System.out.println("*************************************************");
+					System.out.println("*****************************************************************************");
 				}
 			}
 			
@@ -1474,7 +1633,7 @@ public class Utility
 				{
 					e.printStackTrace();
 				} catch (IOException | ParseException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				} 
 			}

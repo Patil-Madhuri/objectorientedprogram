@@ -4,8 +4,12 @@
 		"Price": 500
 	},
 	"#": {
-		"NumberOfShare": 99999800,
-		"Price": 100
+		"NumberOfShare": 12,
+		"Price": 500
+	},
+	"$": {
+		"NumberOfShare": 12,
+		"Price": 1000
 	},
 	"%": {
 		"NumberOfShare": 10000,

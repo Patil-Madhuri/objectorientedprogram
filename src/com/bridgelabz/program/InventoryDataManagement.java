@@ -11,6 +11,7 @@ public class InventoryDataManagement
 {
 	public static void main(String[] args) 
 	{
+		//System.out.println("dhfhfgf");
 		Utility.writeData();
 		Utility.readData();
 		
