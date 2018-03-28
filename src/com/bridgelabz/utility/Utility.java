@@ -454,68 +454,68 @@ public class Utility
 			String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};
 			String[] rank = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
 			
-			String[] player1 = new String[13];
-			String[] player2 = new String[13];
-			String[] player3 = new String[13];
-			String[] player4 = new String[13];
+			String[] player1 = new String[9];
+			String[] player2 = new String[9];
+			String[] player3 = new String[9];
+			String[] player4 = new String[9];
 			
-			String[][] doubleCheck = new String[4][13];
+			String[][] doubleCheck = new String[4][9];
 			Random random = new Random();
-			int min = 0;
-			int row = 0;
-			int colum = 0;
+			int lMin = 0;
+			int lRow = 0;
+			int lColumn = 0;
 			int indexOfPlayer = 0;
 			boolean player1Chance = true;
 			boolean player2Chance = false;
 			boolean player3Chance = false;
 			boolean player4Chance = false;
 			
-			while(indexOfPlayer < 13)
+			while(indexOfPlayer < 9)
 			{
 				while(player1Chance)
 				{
-					row = min + random.nextInt(4);
-					colum = min + random.nextInt(13);
-					if(doubleCheck[row][colum]== null)
+					lRow = lMin + random.nextInt(4);
+					lColumn = lMin + random.nextInt(9);
+					if(doubleCheck[lRow][lColumn]== null)
 					{
-						player1[indexOfPlayer]=rank[colum] + " of " + suits[row];
-						doubleCheck[row][colum] = "present";
+						player1[indexOfPlayer]=rank[lColumn] + " of " + suits[lRow];
+						doubleCheck[lRow][lColumn] = "present";
 						player2Chance = true;
 						player1Chance = false;
 					}
 				}
 				while(player2Chance)
 				{
-					row = min + random.nextInt(4);
-					colum = min + random.nextInt(13);
-					if(doubleCheck[row][colum] == null)
+					lRow = lMin + random.nextInt(4);
+					lColumn = lMin + random.nextInt(9);
+					if(doubleCheck[lRow][lColumn] == null)
 					{
-						player2[indexOfPlayer] = rank[colum] + " of " + suits[row];
-						doubleCheck[row][colum] = "present";
+						player2[indexOfPlayer] = rank[lColumn] + " of " + suits[lRow];
+						doubleCheck[lRow][lColumn] = "present";
 						player3Chance = true;
 						player2Chance = false;
 					}
 				}
 				while(player3Chance)
 				{
-					row = min + random.nextInt(4);
-					colum = min + random.nextInt(13);
-					if(doubleCheck[row][colum] == null)
+					lRow = lMin + random.nextInt(4);
+					lColumn = lMin + random.nextInt(9);
+					if(doubleCheck[lRow][lColumn] == null)
 					{
-						player3[indexOfPlayer] = rank[colum] + " of " + suits[row];
-						doubleCheck[row][colum] = "present";
+						player3[indexOfPlayer] = rank[lColumn] + " of " + suits[lRow];
+						doubleCheck[lRow][lColumn] = "present";
 						player4Chance = true;
 						player3Chance = false;
 					}
 				}
 				while(player4Chance)
 				{
-					row = min + random.nextInt(4);
-					colum = min + random.nextInt(13);
-					if(doubleCheck[row][colum] == null)
+					lRow = lMin + random.nextInt(4);
+					lColumn = lMin + random.nextInt(9);
+					if(doubleCheck[lRow][lColumn] == null)
 					{
-						player4[indexOfPlayer++] = rank[colum] + " of " + suits[row];
-						doubleCheck[row][colum] = "present";
+						player4[indexOfPlayer++] = rank[lColumn] + " of " + suits[lRow];
+						doubleCheck[lRow][lColumn] = "present";
 						player1Chance = true;
 						player4Chance = false;
 					}
@@ -652,7 +652,8 @@ public class Utility
 				System.out.println("Enter Zip Code: ");
 				lZipcode = scanner.nextLong();
 				
-				try {
+				try 
+				{
 					File file = new File("address.json");
 					FileReader reader = new FileReader(file);
 					JSONParser parser = new JSONParser();
