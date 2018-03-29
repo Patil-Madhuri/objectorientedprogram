@@ -540,7 +540,7 @@ public class Utility
 			for(int i = 0; i < 4; i++)
 			{
 				String[] array = arrayList.get(i);
-				for(int j = 0; j < 13; j++)
+				for(int j = 0; j < 9; j++)
 				{
 					String cards = array[j];
 					String cardRank = cards.substring(0, cards.indexOf(" "));
@@ -603,7 +603,7 @@ public class Utility
 				String[] cardsOfPlayer = arrayList.get(k);
 				for(int i = 0;i<12;i++)
 				{
-					for(int j = i +1; j < 13; j++)
+					for(int j = i +1; j < 9; j++)
 					{
 						if(cardsIndex[k][i]>cardsIndex[k][j])
 						{
